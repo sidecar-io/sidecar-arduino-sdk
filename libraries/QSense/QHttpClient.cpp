@@ -1,10 +1,17 @@
 #include "QHttpClient.h"
 
-#include <EthernetClient.h>
-#include <WiFiClient.h>
 
-using qsense::QString;
-using qsense::net::HttpClient;
+#if defined( ARDUINO )
+#include <WiFiClient.h>
+#include "../StandardCplusplus/iostream"
+#else
+#include <vector>
+#include <algorithm>
+#include <iostream>
+#include <sstream>
+
+#include <Poco/Net/StreamSocket.h>
+#endif
 
 namespace qsense
 {
@@ -16,177 +23,137 @@ namespace qsense
       qsense::net::NetworkType networkType;
     }
 
-    class HttpClientOverEthernet : public HttpClient, EthernetClient
+#ifndef ARDUINO
+    class NetworkClient
     {
     public:
-      HttpClientOverEthernet() : EthernetClient(), server() {}
+      ~NetworkClient() { socket.close(); }
 
       int16_t connect( const QString& srvr, uint16_t port )
       {
-        server = srvr;
-        return EthernetClient::connect( server.c_str(), port );
+        socket.connect( Poco::Net::SocketAddress( srvr, port ) );
+        socket.setNoDelay( true );
+        return 1;
       }
 
-      uint8_t connected() { return EthernetClient::connected(); }
-
-      uint16_t get( const QString& uri, const Headers& headers )
+      bool connected()
       {
-        uint16_t status = 0;
-
-        print( F( "GET " ) );
-        print( uri.c_str() );
-        println( F( " HTTP/1.1" ) );
-        print( F( "Host: " ) );
-        println( server.c_str() );
-        writeHeaders( headers );
-
-        if ( connected() )
-        {
-          const QString& line = readLine();
-          if ( line.length() > 14 ) status =  atoi( line.substr( 9, 3 ).c_str() );
-        }
-
-        return status;
+        return ( socket.impl()->initialized() || ( current < buffer.size() ) );
       }
 
-      uint16_t post( const QString& uri, const Headers& headers, const QString& body )
+      void print( const QString& str )
       {
-        uint16_t status = 0;
-
-        print( F( "POST " ) );
-        print( uri.c_str() );
-        println( F( " HTTP/1.1" ) );
-        print( F( "Host: " ) );
-        println( server.c_str() );
-
-        if ( body.size() > 0 )
-        {
-          print( F( "Content-Length: " ) );
-          println( body.length() );
-        }
-
-        writeHeaders( headers );
-        if ( body.size() > 0 ) println( body.c_str() );
-        println();
-
-        if ( connected() )
-        {
-          const QString& line = readLine();
-          if ( line.length() > 14 ) status =  atoi( line.substr( 9, 3 ).c_str() );
-        }
-
-        return status;
+        socket.sendBytes( str.c_str(), str.size() );
       }
 
+      void println() { print( "\r\n" ); }
 
-      const QString readLine()
+      void println( const QString& str )
       {
-        QString line;
-
-        while ( connected() )
-        {
-          int bytes = available();
-          int16_t c = ' ';
-
-          if ( bytes )
-          {
-            line.reserve( bytes );
-            c = timedRead();
-            while ( c >= 0 && c != '\n' )
-            {
-              line += static_cast<char>( c );
-              c = timedRead();
-            }
-          }
-
-          if ( c == '\n' ) break;
-        }
-
-        return line;
-      }
-
-
-      Headers readHeaders()
-      {
-        Headers m;
-
-        while ( connected() )
-        {
-          const QString& line = readLine();
-
-          std::size_t found = line.find( ":" );
-          if ( found != QString::npos )
-          {
-            const QString& key = line.substr( 0, found );
-            const QString& value = line.substr( found + 2 );
-            m.insert( std::pair<QString,QString>( key, value ) );
-          }
-
-          if ( line.length() <= 1 ) break;
-        }
-
-        return m;
-      }
-
-
-      const QString readBody()
-      {
-        QString content;
-
-        if ( connected() ) readHeaders();
-        while ( connected() )
-        {
-          const QString& line = readLine();
-          if ( line.length() == 0 ) break;
-          content.append( line );
-        }
-
-        return content;
-      }
-
-
-    protected:
-      void writeHeaders( const Headers& headers, bool close = true )
-      {
-        for ( Headers::const_iterator iter = headers.begin(); iter != headers.end(); ++iter )
-        {
-          print( iter->first.c_str() );
-          print( ": " );
-          println( iter->second.c_str() );
-        }
-
-        if ( close ) println( F( "Connection: close" ) );
+        print( str );
         println();
       }
 
+      void println( int value )
+      {
+        std::stringstream ss;
+        ss << value;
+        println( ss.str() );
+      }
+
+      int available()
+      {
+        populate();
+        return buffer.size() - current;
+      }
+
+#if defined( ARDUINO )
+      int timedRead()
+#else
+      char timedRead()
+#endif
+      {
+        populate();
+        return ( current < buffer.size() ) ? buffer[current++] : -1;
+      }
+
+      void populate()
+      {
+        if ( ! socket.impl()->initialized() ) return;
+
+        int count = 1;
+        while ( count )
+        {
+          char bytes[8192];
+          count = socket.receiveBytes( bytes, 8192 );
+          for ( int i = 0; i < count; ++i ) buffer.push_back( bytes[i] );
+        }
+
+        socket.close();
+      }
 
     private:
-      qsense::QString server;
+      uint32_t current = 0;
+      std::vector<char> buffer;
+      Poco::Net::StreamSocket socket;
     };
+#endif
 
-    class HttpClientOverWiFi : public HttpClient, WiFiClient
+    template <typename C>
+    class HttpClientImpl : public HttpClient, C
     {
     public:
-      HttpClientOverWiFi() : WiFiClient(), server() {}
+      HttpClientImpl() : HttpClient(), C(), server() {}
 
       int16_t connect( const QString& srvr, uint16_t port )
       {
         server = srvr;
-        return WiFiClient::connect( server.c_str(), port );
+        return C::connect( server.c_str(), port );
       }
 
-      uint8_t connected() { return WiFiClient::connected(); }
+#if defined( ARDUINO )
+      int16_t connect( const IPAddress& srvr, uint16_t port )
+      {
+        return C::connect( srvr, port );
+      }
 
-      uint16_t get( const QString& uri, const Headers& headers )
+      uint8_t connected() { return C::connected(); }
+#else
+      bool connected() { return C::connected(); }
+#endif
+
+      uint16_t get( const HttpRequest& request )
       {
         uint16_t status = 0;
 
-        print( F( "GET " ) );
-        print( uri.c_str() );
-        println( F( " HTTP/1.1" ) );
-        print( F( "Host: " ) );
-        println( server.c_str() );
-        writeHeaders( headers );
+#if defined( ARDUINO )
+        C::print( F( "GET " ) );
+#else
+        C::print( "GET " );
+#endif
+
+        C::print( request.getUri().c_str() );
+        const QString& parameters = request.getParamters();
+        if ( parameters.size() > 0 )
+        {
+#if defined( ARDUINO )
+          C::print( F( "?" ) );
+#else
+          C::print( "?" );
+#endif
+          C::print( parameters.c_str() );
+        }
+
+#if defined( ARDUINO )
+        C::println( F( " HTTP/1.1" ) );
+        C::print( F( "Host: " ) );
+#else
+        C::println( " HTTP/1.1" );
+        C::print( "Host: " );
+#endif
+
+        C::println( server.c_str() );
+        writeHeaders( request );
 
         if ( connected() )
         {
@@ -197,30 +164,73 @@ namespace qsense
         return status;
       }
 
-      uint16_t post( const QString& uri, const Headers& headers, const QString& body )
+      uint16_t post( const HttpRequest& request )
+      {
+        return doMethod( "POST", request );
+      }
+
+
+      uint16_t remove( const HttpRequest& request )
+      {
+        return doMethod( "DELETE", request );
+      }
+
+      uint16_t doMethod( const QString& method, const HttpRequest& request )
       {
         uint16_t status = 0;
 
-        print( F( "POST " ) );
-        print( uri.c_str() );
-        println( F( " HTTP/1.1" ) );
-        print( F( "Host: " ) );
-        println( server.c_str() );
+        C::print( method.c_str() );
+        C::print( " " );
 
-        if ( body.size() > 0 )
+#if defined( ARDUINO )
+        C::print( request.getUri().c_str() );
+        C::println( F( " HTTP/1.1" ) );
+        C::print( F( "Host: " ) );
+#else
+        C::print( request.getUri().c_str() );
+        C::println( " HTTP/1.1" );
+        C::print( "Host: " );
+#endif
+        C::println( server.c_str() );
+
+        if ( request.getBody().size() > 0 )
         {
-          print( F( "Content-Length: " ) );
-          println( body.length() );
+#if defined( ARDUINO )
+          C::print( F( "Content-Length: " ) );
+#else
+          C::print( "Content-Length: " );
+#endif
+          C::println( request.getBody().length() );
         }
 
-        writeHeaders( headers );
-        if ( body.size() > 0 ) println( body.c_str() );
-        println();
+#if defined( ARDUINO )
+        std::cout << F( "  [req] ") << method << F( " " ) <<
+          request.getUri() << F( " HTTP/1.1" ) << std::endl;
+        std::cout << F( "  [req] Host: " ) << server << std::endl;
+        std::cout << F( "  [req] Content-Length: " ) << request.getBody().length() << std::endl;
+#endif
+
+        writeHeaders( request );
+
+        const QString& parameters = request.getParamters();
+        if ( parameters.size() > 0 ) C::println( parameters.c_str() );
+
+        if ( request.getBody().size() > 0 )
+        {
+          C::println( request.getBody().c_str() );
+#if defined( ARDUINO )
+          std::cout << F( "  [req] " ) << request.getBody() << std::endl;
+#endif
+        }
+        C::println();
 
         if ( connected() )
         {
           const QString& line = readLine();
           if ( line.length() > 14 ) status =  atoi( line.substr( 9, 3 ).c_str() );
+#if defined( ARDUINO )
+          std::cout << F( "  [resp] " ) << line << std::endl;
+#endif
         }
 
         return status;
@@ -233,17 +243,22 @@ namespace qsense
 
         while ( connected() )
         {
-          int bytes = available();
-          int16_t c = ' ';
+          int bytes = C::available();
+#if defined( ARDUINO )
+          int c = ' ';
+#else
+          char c = ' ';
+#endif
 
           if ( bytes )
           {
             line.reserve( bytes );
-            c = timedRead();
+            c = C::timedRead();
+
             while ( c >= 0 && c != '\n' )
             {
-              line += static_cast<char>( c );
-              c = timedRead();
+              if ( c != '\r' ) line += static_cast<char>( c );
+              c = C::timedRead();
             }
           }
 
@@ -254,9 +269,9 @@ namespace qsense
       }
 
 
-      Headers readHeaders()
+      HttpRequest::Map readHeaders()
       {
-        Headers m;
+        HttpRequest::Map m;
 
         while ( connected() )
         {
@@ -294,17 +309,29 @@ namespace qsense
 
 
     protected:
-      void writeHeaders( const Headers& headers, bool close = true )
+      void writeHeaders( const HttpRequest& request, bool close = true )
       {
-        for ( Headers::const_iterator iter = headers.begin(); iter != headers.end(); ++iter )
+        for ( HttpRequest::Iterator iter = request.beginHeaders();
+            iter != request.endHeaders(); ++iter )
         {
-          print( iter->first.c_str() );
-          print( ": " );
-          println( iter->second.c_str() );
+          C::print( iter->first.c_str() );
+          C::print( ": " );
+          C::println( iter->second.c_str() );
+#if defined( ARDUINO )
+          std::cout << F( "  [req] " ) << iter->first << ": " << iter->second << std::endl;
+#endif
         }
 
-        if ( close ) println( F( "Connection: close" ) );
-        println();
+#if defined( ARDUINO )
+        if ( close )
+        {
+          C::println( F( "Connection: close" ) );
+          std::cout << F( "  [req] " ) << F( "Connection: close" ) << std::endl << std::endl;
+        }
+#else
+        if ( close ) C::println( "Connection: close" );
+#endif
+        C::println();
       }
 
 
@@ -314,19 +341,26 @@ namespace qsense
   }
 }
 
+using qsense::QString;
+using qsense::net::HttpClient;
 
-HttpClient* HttpClient::create()
+
+HttpClient::Ptr HttpClient::create()
 {
+#if defined ( ARDUINO )
   switch ( qsense::net::data::networkType )
   {
     case qsense::net::Ethernet:
-      return new qsense::net::HttpClientOverEthernet;
+      return new qsense::net::HttpClientImpl<EthernetClient>;
       break;
     case qsense::net::WiFi:
-      return new qsense::net::HttpClientOverWiFi;
+      return new qsense::net::HttpClientImpl<WiFiClient>;
       break;
-    default: return NULL;
+    default: return Ptr();
   }
+#else
+  return new qsense::net::HttpClientImpl<qsense::net::NetworkClient>;
+#endif
 }
 
 

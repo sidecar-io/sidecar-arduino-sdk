@@ -211,9 +211,11 @@ namespace qsense
         using qsense::hash::base64::encodeLength;
 
         int outLength = encodeLength( length );
-        char output[outLength];
+        char* output = new char[outLength];
         encode( output, reinterpret_cast<const char*>( input ), length );
-        return QString( output );
+        QString result( output );
+        delete[] output;
+        return result;
       }
     }
   }
@@ -424,6 +426,7 @@ QString Sha1::sign( const QString& privateKey, const QString& httpMethod,
   const QString& uriPath, const QString& date, const QString& contentMd5,
   const QString& signatureVersion )
 {
+  /*
   QString input;
   input.append( httpMethod ).append( "\n" );
   input.append( uriPath ).append( "\n" );
@@ -437,5 +440,39 @@ QString Sha1::sign( const QString& privateKey, const QString& httpMethod,
   Byte output[20];
   hmac( key, privateKey.length(), inputChars, input.length(), output );
 
+  return sha1::base64( output, 20 );
+  */
+
+  Context ctx;
+
+  Byte* chars = reinterpret_cast<Byte*>( const_cast<char*>( privateKey.c_str() ) );
+  startHmac( &ctx, chars, privateKey.size() );
+
+  const QString nlc( "\n" );
+  Byte* newline = reinterpret_cast<Byte*>( const_cast<char*>( nlc.c_str() ) );
+
+  chars = reinterpret_cast<Byte*>( const_cast<char*>( httpMethod.c_str() ) );
+  updateHmac( &ctx, chars, httpMethod.size() );
+  updateHmac( &ctx, newline, nlc.size() );
+
+  chars = reinterpret_cast<Byte*>( const_cast<char*>( uriPath.c_str() ) );
+  updateHmac( &ctx, chars, uriPath.size() );
+  updateHmac( &ctx, newline, nlc.size() );
+
+  chars = reinterpret_cast<Byte*>( const_cast<char*>( date.c_str() ) );
+  updateHmac( &ctx, chars, date.size() );
+  updateHmac( &ctx, newline, nlc.size() );
+
+  chars = reinterpret_cast<Byte*>( const_cast<char*>( contentMd5.c_str() ) );
+  updateHmac( &ctx, chars, contentMd5.size() );
+  updateHmac( &ctx, newline, nlc.size() );
+
+  chars = reinterpret_cast<Byte*>( const_cast<char*>( signatureVersion.c_str() ) );
+  updateHmac( &ctx, chars, signatureVersion.size() );
+
+  Byte output[20];
+  finishHmac( &ctx, output );
+
+  memset( &ctx, 0, sizeof( Context ) );
   return sha1::base64( output, 20 );
 }

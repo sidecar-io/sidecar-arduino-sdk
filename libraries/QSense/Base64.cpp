@@ -124,7 +124,7 @@ namespace qsense
         bufin = reinterpret_cast<const Byte *>( bufcoded );
         while ( pr2six[*(bufin++)] <= 63 );
 
-        nprbytes = ( bufin - reinterpret_cast<const Byte *>( bufcoded ) ) - 1;
+        nprbytes = static_cast<int32_t>( ( bufin - reinterpret_cast<const Byte *>( bufcoded ) ) - 1 );
         nbytesdecoded = ( ( nprbytes + 3 ) / 4 ) * 3;
 
         return nbytesdecoded + 1;
@@ -141,7 +141,7 @@ namespace qsense
         bufin = reinterpret_cast<const Byte *>( bufcoded );
         while ( pr2six[*(bufin++)] <= 63 );
 
-        nprbytes = ( bufin - reinterpret_cast<const Byte *>( bufcoded ) ) - 1;
+        nprbytes = static_cast<int32_t>( ( bufin - reinterpret_cast<const Byte *>( bufcoded ) ) - 1 );
         nbytesdecoded = ( ( nprbytes + 3 ) / 4 ) * 3;
 
         bufout = reinterpret_cast<Byte *>( bufplain );
@@ -198,9 +198,9 @@ namespace qsense
         {
           *p++ = basis_64[(string[i] >> 2) & 0x3F];
           *p++ = basis_64[((string[i] & 0x3) << 4) |
-                          ( static_cast<int32_t>( string[i + 1] & 0xF0 ) >> 4 )];
+                          ( int32_t( string[i + 1] & 0xF0 ) >> 4 )];
           *p++ = basis_64[((string[i + 1] & 0xF) << 2) |
-                          ( static_cast<int32_t>( string[i + 2] & 0xC0 ) >> 6 )];
+                          ( int32_t( string[i + 2] & 0xC0 ) >> 6 )];
           *p++ = basis_64[string[i + 2] & 0x3F];
         }
         if (i < len)
@@ -214,14 +214,14 @@ namespace qsense
           else
           {
             *p++ = basis_64[((string[i] & 0x3) << 4) |
-                            ( static_cast<int32_t>( string[i + 1] & 0xF0 ) >> 4 )];
+                            ( int32_t( string[i + 1] & 0xF0 ) >> 4 )];
             *p++ = basis_64[((string[i + 1] & 0xF) << 2)];
           }
           *p++ = '=';
         }
 
         *p++ = '\0';
-        return p - encoded;
+        return static_cast<int32_t>( p - encoded );
       }
     }
   }

@@ -2,11 +2,14 @@
 #include "QHttpClient.h"
 
 #if defined( ARDUINO )
-#include <stdlib.h>
+#include "../StandardCplusplus/cstdlib"
+#include "../StandardCplusplus/iostream"
 #include "../StandardCplusplus/sstream"
 #else
 #include <cstdlib>
+#include <iostream>
 #include <sstream>
+#include <Poco/Timestamp.h>
 #endif
 
 using qsense::QString;
@@ -14,6 +17,18 @@ using qsense::net::DateTime;
 
 const int64_t DateTime::minEpoch = int64_t( 1430704319000 );
 const int64_t DateTime::milliSecondsPerHour = int64_t( 3600000 );
+
+#ifndef ARDUINO
+uint32_t qsense::net::millis()
+{
+  using Poco::Timestamp;
+  static Timestamp start;
+
+  Timestamp now;
+  return static_cast<uint32_t>( ( now.epochMicroseconds() - start.epochMicroseconds() ) / 1000.0 );
+}
+
+#endif
 
 
 DateTime::DateTime() : startTimeMillis( millis() ),
@@ -72,32 +87,51 @@ void DateTime::init()
 const qsense::QString DateTime::serverTime()
 {
   using qsense::net::HttpClient;
+  using qsense::net::HttpRequest;
 
-  static QString server( "www.timeapi.org" );
-  static QString uri( "/utc/now" );
+  static QString server( "api.sidecar.io" );
+  static QString uri( "/rest/status/" );
   static QString userAgentKey( "User-Agent" );
   static QString userAgentValue( "QSense" );
 
-  HttpClient* client = HttpClient::create();
+  HttpClient::Ptr client = HttpClient::create();
 
   if ( client->connect( server ) )
   {
+#if defined( ARDUINO )
     std::cout << F( "Connected to " ) << server << std::endl;
+#else
+    std::cout << "Connected to " << server << std::endl;
+#endif
 
-    HttpClient::Headers headers;
-    headers.insert( std::pair<QString,QString>( userAgentKey, userAgentValue ) );
+    HttpRequest request( uri );
+    request.setHeader( userAgentKey, userAgentValue );
 
-    uint16_t responseCode = client->get( uri, headers );
+    uint16_t responseCode = client->get( request );
+
+#if defined( ARDUINO )
     std::cout << F( "Server returned HTTP response code: " ) << responseCode << std::endl;
+#else
+    std::cout << "Server returned HTTP response code: " << responseCode << std::endl;
+#endif
 
-    if ( responseCode == 200 && client->connected() ) return client->readBody();
+    if ( responseCode == 200 && client->connected() )
+    {
+      const QString& body = client->readBody();
+      std::size_t start = body.find_first_of( "utcTime\":\"" );
+      std::size_t end = body.find( '"', start + 11 );
+      return body.substr( start + 11, end - ( start + 11 ) );
+    }
   }
   else
   {
+#if defined( ARDUINO )
     std::cout << F( "Connection to " ) << server << F( " failed" ) << std::endl;
+#else
+    std::cout << "Connection to " << server << " failed" << std::endl;
+#endif
   }
 
-  delete client;
   return QString();
 }
 
@@ -116,14 +150,13 @@ bool DateTime::isLeapYear( int16_t year ) const
 
 int64_t DateTime::epochMilliSeconds( const QString& date ) const
 {
-  const int16_t year = atoi( date.substr( 0, 4 ).c_str() );
-  const int16_t month = atoi( date.substr( 5, 2 ).c_str() );
-  const int16_t day = atoi( date.substr( 8, 2 ).c_str() );
-  const int16_t hour = atoi( date.substr( 11, 2 ).c_str() );
-  const int16_t minute = atoi( date.substr( 14, 2 ).c_str() );
-  const int16_t second = atoi( date.substr( 17, 2 ).c_str() );
-  const int16_t dst = atoi( date.substr( 20, 2 ).c_str() );
-  const int16_t millis = 0;
+  const int16_t year = std::atoi( date.substr( 0, 4 ).c_str() );
+  const int16_t month = std::atoi( date.substr( 5, 2 ).c_str() );
+  const int16_t day = std::atoi( date.substr( 8, 2 ).c_str() );
+  const int16_t hour = std::atoi( date.substr( 11, 2 ).c_str() );
+  const int16_t minute = std::atoi( date.substr( 14, 2 ).c_str() );
+  const int16_t second = std::atoi( date.substr( 17, 2 ).c_str() );
+  const int16_t millis = std::atoi( date.substr( 20, 3 ).c_str() );
 
   int64_t epoch = millis;
   epoch += second * int64_t( 1000 );
@@ -157,7 +190,6 @@ int64_t DateTime::epochMilliSeconds( const QString& date ) const
     else epoch += 365 * 24 * milliSecondsPerHour;
   }
 
-  if ( dst ) epoch -= dst * milliSecondsPerHour;
   return epoch;
 }
 
@@ -211,7 +243,7 @@ QString DateTime::isoTime( int64_t epoch ) const
     else break;
   }
 
-  const int day = epoch + 1;
+  int day = epoch + 1;
   std::stringstream ss;
   ss << year << '-';
 

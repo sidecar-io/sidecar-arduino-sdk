@@ -6,6 +6,7 @@
 #include "../StandardCplusplus/StandardCplusplus.h"
 #include "../StandardCplusplus/string"
 #else
+#include <cstdint>
 #include <string>
 #endif
 

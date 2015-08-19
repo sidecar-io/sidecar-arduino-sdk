@@ -2,10 +2,15 @@
 #define QSENSE_NET_HTTPCLIENT_H
 
 #if defined( ARDUINO )
-#include "QSense.h"
+#include <Ethernet.h>
+#include "AutoPtr.h"
+#include "RefCountedObject.h"
+#include "HttpRequest.h"
 #include "../StandardCplusplus/map"
 #else
-#include <QSense.h>
+#include <AutoPtr.h>
+#include <RefCountedObject.h>
+#include <net/HttpRequest.h>
 #include <map>
 #endif
 
@@ -22,50 +27,63 @@ namespace qsense
      * Before use, the client should be initialised with the network
      * type used by the device ({@link qsense::net::initNetworkType}.
      */
-    class HttpClient
+    class HttpClient : public RefCountedObject
     {
     public:
-      /// Map used to define request headers
-      typedef std::map<qsense::QString,qsense::QString> Headers;
+      /// Type for auto pointer to a http client instance.
+      typedef AutoPtr<HttpClient> Ptr;
+
+      /// Default constructor.
+      HttpClient() : RefCountedObject() {}
 
       /// Destructor for sub-classes
       virtual ~HttpClient() {}
 
       /**
        * @brief Factory method for creating concrete instances based on initialisation.
-       *
-       * <b>Note:</b>Callers must delete the returned instance.
        * @return An instance that uses either ethernet or wifi to connect
        *   to the network.  Callers must delete the returned instance.
        */
-      static HttpClient* create();
+      static Ptr create();
 
       /// Make a socket connection to the specified server on specified port (default 80)
       virtual int16_t connect( const qsense::QString& server, uint16_t port = 80 ) = 0;
 
+#if defined( ARDUINO )
+      /// Make a socket connection to the specified ip address on specified port (default 80)
+      virtual int16_t connect( const IPAddress& server, uint16_t port = 80 ) = 0;
+
       /// Check to see if the client is connected to the server
       virtual uint8_t connected() = 0;
+#else
+      /// Check to see if the client is connected to the server
+      virtual bool connected() = 0;
+#endif
 
       /**
-       * @brief Perform a GET request for the specified url.  Optionally
-       * specify a map of custom headers to send to server.
-       * @param uri The remote URI path to request from server
-       * @param headers Optional map of request headers to specify to server.
+       * @brief Perform a GET request using information in the request object.
+       * @param request The request object that encapsulates the uri and
+       *   other relevant information
        * @return The HTTP response code from server.
        */
-      virtual uint16_t get( const qsense::QString& uri, const Headers& headers = Headers() ) = 0;
+      virtual uint16_t get( const HttpRequest& request ) = 0;
 
       /**
-       * @brief Perform a POST request to the specified url.  Optionally
-       * specify a map of custom headers and a string body to send to server.
-       * @param uri The remote URI path to request from server
-       * @param headers Optional map of request headers to specify to server.
-       * @param body Optional body to post to server.
+       * @brief Perform a POST request using information in the request object.
+       * @param request The request object that encapsulates the uri and
+       *   other relevant information
        * @return The HTTP response code from server.
        */
-      virtual uint16_t post( const qsense::QString& uri,
-        const Headers& headers = Headers(),
-        const qsense::QString& body = qsense::QString() ) = 0;
+      virtual uint16_t post( const HttpRequest& request ) = 0;
+
+      /**
+       * @brief Perform a DELETE request using information in the request object.
+       * Named remove to get around delete being keyword.
+       * @param request The request object that encapsulates the uri and
+       *   other relevant information
+       * @return The HTTP response code from server.
+       */
+      virtual uint16_t remove( const HttpRequest& request ) = 0;
 
       /**
        * @brief Read a line from the HTTP response.
@@ -77,7 +95,7 @@ namespace qsense
       virtual const qsense::QString readLine() = 0;
 
       /// Return a map of the HTTP response headers
-      virtual Headers readHeaders() = 0;
+      virtual HttpRequest::Map readHeaders() = 0;
 
       /**
        * @brief Read the entire contents of the server response body.
@@ -98,7 +116,7 @@ namespace qsense
        * @param headers The map of headers to send to the server.
        * @param close Flag indicating whether HTTP keep-alive is NOT to be used.
        */
-      virtual void writeHeaders( const Headers& headers, bool close = true ) = 0;
+      virtual void writeHeaders( const HttpRequest& request, bool close = true ) = 0;
     };
 
     /// Enumeration of network connection types for device

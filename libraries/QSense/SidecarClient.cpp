@@ -6,9 +6,11 @@
 #include "MD5.h"
 #include "Sha1.h"
 #include "../StandardCplusplus/sstream"
+#include <Ethernet.h>
 #else
 #include <hash/MD5.h>
 #include <hash/Sha1.h>
+#include <iostream>
 #include <sstream>
 #endif
 
@@ -20,7 +22,23 @@ namespace qsense
     {
       static QString apiKey;
       static QString apiSecret;
-      static bool SidecarClientInitialised = false;
+      static bool SidecarClientAPIInitialised = false;
+
+      static QString userKey;
+      static QString userSecret;
+      static bool SidecarClientUserInitialised = false;
+
+      static const QString server( "api.sidecar.io" );
+      static const QString POST( "POST" );
+      static const QString DELETE( "DELETE" );
+
+      const QString credentials( const QString& username, const QString& password )
+      {
+        std::stringstream ss;
+        ss << "{\"username\":\"" << username <<
+          "\",\"password\":\"" << password << "\"}";
+        return ss.str();
+      }
     }
   }
 }
@@ -29,14 +47,324 @@ using qsense::QString;
 using qsense::net::SidecarClient;
 
 
-void SidecarClient::init( const QString& apiKey, const QString& apiSecret )
+void SidecarClient::initAPIKey( const QString& apiKey, const QString& apiSecret )
 {
-  if ( ! qsense::net::data::SidecarClientInitialised )
+  if ( ! qsense::net::data::SidecarClientAPIInitialised )
   {
     qsense::net::data::apiKey = apiKey;
     qsense::net::data::apiSecret = apiSecret;
-    qsense::net::data::SidecarClientInitialised = true;
+    qsense::net::data::SidecarClientAPIInitialised = true;
   }
+}
+
+
+void SidecarClient::initUserKey( const QString& userKey, const QString& userSecret )
+{
+  if ( ! qsense::net::data::SidecarClientUserInitialised )
+  {
+    qsense::net::data::userKey = userKey;
+    qsense::net::data::userSecret = userSecret;
+    qsense::net::data::SidecarClientUserInitialised = true;
+  }
+}
+
+
+SidecarClient::UserResponse SidecarClient::createUser(
+  const QString& username, const QString& password )
+{
+  using qsense::net::DateTime;
+  using qsense::net::HttpClient;
+  using qsense::net::HttpRequest;
+
+  static QString uri( "/rest/v1/provision/application/user/" );
+
+  uint16_t responseCode = uint16_t( 500 );
+  const QString& currentTime = DateTime::singleton().currentTime();
+
+  HttpClient::Ptr client = HttpClient::create();
+
+  if ( client->connect( data::server ) )
+  {
+#if defined( ARDUINO )
+    std::cout << F( "Connected to " ) << data::server << std::endl;
+#else
+    std::cout << "Connected to " << data::server << std::endl;
+#endif
+
+    const QString& json = data::credentials( username, password );
+    const QString& hash = md5( json );
+
+    HttpRequest request( uri );
+    request.setHeader( "Date", currentTime );
+    request.setHeader( "Content-Type", "application/json" );
+    request.setHeader( "Content-MD5", hash );
+    request.setHeader( "Signature-Version", "1" );
+
+    {
+      std::stringstream ss;
+      ss << json.length();
+      request.setHeader( "Content-Length", ss.str() );
+    }
+
+    QString auth( "SIDECAR " );
+    auth.
+      append( qsense::net::data::apiKey ).
+      append( ":" ).
+      append( signature( qsense::net::data::apiSecret,
+        data::POST, uri, currentTime, hash ).c_str() );
+    request.setHeader( "Authorization", auth );
+
+    request.setBody( json );
+
+    responseCode = client->post( request );
+#if defined( ARDUINO )
+    std::cout << F( "User Provision API returned HTTP response code: " ) << responseCode << std::endl;
+#else
+    std::cout << "User Provision API returned HTTP response code: " << responseCode << std::endl;
+#endif
+
+    if ( responseCode == 200 )
+    {
+      const QString& body = client->readBody();
+
+      std::size_t start = body.find_first_of( "keyId\":\"" );
+      std::size_t end = body.find( '"', start + 8 );
+      const QString& keyId = body.substr( start + 8, end - ( start + 8 ) );
+
+      start = body.find_first_of( "secret\":\"" );
+      end = body.find( '"', start + 9 );
+      const QString& secret = body.substr( start + 9, end - ( start + 9 ) );
+      return UserResponse( responseCode, keyId, secret );
+    }
+    else
+    {
+      while ( client->connected() )
+      {
+        std::cout << "  [resp] " << client->readLine() << std::endl;
+      }
+    }
+  }
+
+  return UserResponse( responseCode );
+}
+
+
+SidecarClient::UserResponse SidecarClient::createOrAuthenticateUser(
+  const QString& username, const QString& password )
+{
+  using qsense::net::DateTime;
+  using qsense::net::HttpClient;
+  using qsense::net::HttpRequest;
+
+  static QString uri( "/rest/v1/provision/application/accesskey/" );
+
+  uint16_t responseCode = uint16_t( 500 );
+  const QString& currentTime = DateTime::singleton().currentTime();
+
+  HttpClient::Ptr client = HttpClient::create();
+
+  if ( client->connect( data::server ) )
+  {
+#if defined( ARDUINO )
+    std::cout << F( "Connected to " ) << data::server << std::endl;
+#else
+    std::cout << "Connected to " << data::server << std::endl;
+#endif
+
+    const QString& json = data::credentials( username, password );
+    const QString& hash = md5( json );
+
+    HttpRequest request( uri );
+    request.setHeader( "Date", currentTime );
+    request.setHeader( "Content-Type", "application/json" );
+    request.setHeader( "Content-MD5", hash );
+    request.setHeader( "Signature-Version", "1" );
+
+    {
+      std::stringstream ss;
+      ss << json.length();
+      request.setHeader( "Content-Length", ss.str() );
+    }
+
+    QString auth( "SIDECAR " );
+    auth.
+      append( qsense::net::data::apiKey ).
+      append( ":" ).
+      append( signature( qsense::net::data::apiSecret,
+        data::POST, uri, currentTime, hash ).c_str() );
+    request.setHeader( "Authorization", auth );
+
+    request.setBody( json );
+
+    responseCode = client->post( request );
+#if defined( ARDUINO )
+    std::cout << F( "Create or Retrieve API returned HTTP response code: " ) << responseCode << std::endl;
+#else
+    std::cout << "Create or Retrieve API returned HTTP response code: " << responseCode << std::endl;
+#endif
+
+    if ( responseCode == 200 )
+    {
+      const QString& body = client->readBody();
+
+      std::size_t start = body.find_first_of( "keyId\":\"" );
+      std::size_t end = body.find( '"', start + 8 );
+      const QString& keyId = body.substr( start + 8, end - ( start + 8 ) );
+
+      start = body.find_first_of( "secret\":\"" );
+      end = body.find( '"', start + 9 );
+      const QString& secret = body.substr( start + 9, end - ( start + 9 ) );
+      return UserResponse( responseCode, keyId, secret );
+    }
+    else
+    {
+      while ( client->connected() )
+      {
+        std::cout << "  [resp] " << client->readLine() << std::endl;
+      }
+    }
+  }
+
+  return UserResponse( responseCode );
+}
+
+
+SidecarClient::UserResponse SidecarClient::authenticate(
+  const QString& username, const QString& password )
+{
+  using qsense::net::DateTime;
+  using qsense::net::HttpClient;
+  using qsense::net::HttpRequest;
+
+  static QString uri( "/rest/v1/provision/application/auth/" );
+
+  uint16_t responseCode = uint16_t( 500 );
+  const QString& currentTime = DateTime::singleton().currentTime();
+
+  HttpClient::Ptr client = HttpClient::create();
+
+  if ( client->connect( data::server ) )
+  {
+#if defined( ARDUINO )
+    std::cout << F( "Connected to " ) << data::server << std::endl;
+#else
+    std::cout << "Connected to " << data::server << std::endl;
+#endif
+
+    const QString& json = data::credentials( username, password );
+    const QString& hash = md5( json );
+
+    HttpRequest request( uri );
+    request.setHeader( "Date", currentTime );
+    request.setHeader( "Content-Type", "application/json" );
+    request.setHeader( "Content-MD5", hash );
+    request.setHeader( "Signature-Version", "1" );
+
+    {
+      std::stringstream ss;
+      ss << json.length();
+      request.setHeader( "Content-Length", ss.str() );
+    }
+
+    QString auth( "SIDECAR " );
+    auth.
+      append( qsense::net::data::apiKey ).
+      append( ":" ).
+      append( signature( qsense::net::data::apiSecret,
+        data::POST, uri, currentTime, hash ).c_str() );
+    request.setHeader( "Authorization", auth );
+
+    request.setBody( json );
+
+    responseCode = client->post( request );
+#if defined( ARDUINO )
+    std::cout << F( "User Provision API returned HTTP response code: " ) << responseCode << std::endl;
+#else
+    std::cout << "User authentication API returned HTTP response code: " << responseCode << std::endl;
+#endif
+
+    if ( responseCode == 200 )
+    {
+      const QString& body = client->readBody();
+
+      std::size_t start = body.find_first_of( "keyId\":\"" );
+      std::size_t end = body.find( '"', start + 8 );
+      const QString& keyId = body.substr( start + 8, end - ( start + 8 ) );
+
+      start = body.find_first_of( "secret\":\"" );
+      end = body.find( '"', start + 9 );
+      const QString& secret = body.substr( start + 9, end - ( start + 9 ) );
+      return UserResponse( responseCode, keyId, secret );
+    }
+    else
+    {
+      while ( client->connected() )
+      {
+        const QString& line = client->readLine();
+        std::cout << "  [resp] " << line << std::endl;
+      }
+    }
+  }
+
+  return UserResponse( responseCode );
+}
+
+
+int16_t SidecarClient::deleteUser( const QString& username, const QString& password )
+{
+  using qsense::net::DateTime;
+  using qsense::net::HttpClient;
+  using qsense::net::HttpRequest;
+
+  static QString uri( "/rest/v1/provision/application/user/" );
+
+  uint16_t responseCode = uint16_t( 500 );
+  const QString& currentTime = DateTime::singleton().currentTime();
+
+  HttpClient::Ptr client = HttpClient::create();
+
+  if ( client->connect( data::server ) )
+  {
+#if defined( ARDUINO )
+    std::cout << F( "Connected to " ) << data::server << std::endl;
+#else
+    std::cout << "Connected to " << data::server << std::endl;
+#endif
+
+    const QString& json = data::credentials( username, password );
+    const QString& hash = md5( json );
+
+    HttpRequest request( uri );
+    request.setHeader( "Date", currentTime );
+    request.setHeader( "Content-Type", "application/json" );
+    request.setHeader( "Content-MD5", hash );
+    request.setHeader( "Signature-Version", "1" );
+
+    {
+      std::stringstream ss;
+      ss << json.length();
+      request.setHeader( "Content-Length", ss.str() );
+    }
+
+    QString auth( "SIDECAR " );
+    auth.
+      append( qsense::net::data::apiKey ).
+      append( ":" ).
+      append( signature( qsense::net::data::apiSecret,
+        data::DELETE, uri, currentTime, hash ).c_str() );
+    request.setHeader( "Authorization", auth );
+
+    request.setBody( json );
+
+    responseCode = client->remove( request );
+#if defined( ARDUINO )
+    std::cout << F( "User Provision API returned HTTP response code: " ) << responseCode << std::endl;
+#else
+    std::cout << "User Provision API returned HTTP response code: " << responseCode << std::endl;
+#endif
+  }
+
+  return responseCode;
 }
 
 
@@ -44,53 +372,66 @@ bool SidecarClient::publish( const qsense::Event& event ) const
 {
   using qsense::net::DateTime;
   using qsense::net::HttpClient;
+  using qsense::net::HttpRequest;
 
-  static QString server( "api.sidecar.io" );
-  static QString method( "POST" );
   static QString uri( "/rest/v1/event" );
 
   bool flag = false;
   const QString& currentTime = DateTime::singleton().currentTime();
 
-  HttpClient* client = HttpClient::create();
+  HttpClient::Ptr client = HttpClient::create();
 
-  if ( client->connect( server ) )
+  if ( client->connect( data::server ) )
   {
-    std::cout << F( "Connected to " ) << server << std::endl;
+#if defined( ARDUINO )
+    std::cout << F( "Connected to " ) << data::server << std::endl;
+#else
+    std::cout << "Connected to " << data::server << std::endl;
+#endif
 
     const QString& eventJson = event.toString();
     const QString& hash = md5( eventJson );
 
-    HttpClient::Headers headers;
-    headers.insert( std::pair<QString,QString>( "Date", currentTime ) );
-    headers.insert( std::pair<QString,QString>( "Content-Type", "application/json" ) );
-    headers.insert( std::pair<QString,QString>( "Content-MD5", hash ) );
-    headers.insert( std::pair<QString,QString>( "Signature-Version", "1" ) );
+    HttpRequest request( uri );
+    request.setHeader( "Date", currentTime );
+    request.setHeader( "Content-Type", "application/json" );
+    request.setHeader( "Content-MD5", hash );
+    request.setHeader( "Signature-Version", "1" );
 
     {
       std::stringstream ss;
       ss << eventJson.length();
-      headers.insert( std::pair<QString,QString>( "Content-Length", ss.str() ) );
+      request.setHeader( "Content-Length", ss.str() );
     }
 
     QString auth( "SIDECAR " );
     auth.
-      append( qsense::net::data::apiKey ).
+      append( qsense::net::data::userKey ).
       append( ":" ).
-      append( signature( method, uri, currentTime, hash ).c_str() );
-    headers.insert( std::pair<QString,QString>( "Authorization", auth ) );
+      append( signature( qsense::net::data::userSecret,
+        data::POST, uri, currentTime, hash ).c_str() );
+    request.setHeader( "Authorization", auth );
 
-    uint16_t responseCode = client->post( uri, headers, eventJson );
-    std::cout << F( "Server returned HTTP response code: " ) << responseCode << std::endl;
+    request.setBody( eventJson );
+
+    uint16_t responseCode = client->post( request );
+#if defined( ARDUINO )
+    std::cout << F( "Event API returned HTTP response code: " ) << responseCode << std::endl;
+#else
+    std::cout << "Event API returned HTTP response code: " << responseCode << std::endl;
+#endif
 
     if ( responseCode == 202 ) flag = true;
   }
   else
   {
-    std::cout << F( "Connection to " ) << server << F( " failed" ) << std::endl;
+#if defined( ARDUINO )
+    std::cout << F( "Connection to " ) << data::server << F( " failed" ) << std::endl;
+#else
+    std::cout << "Connection to " << data::server << " failed" << std::endl;
+#endif
   }
 
-  delete client;
   return flag;
 }
 
@@ -103,10 +444,11 @@ QString SidecarClient::md5( const QString& event ) const
 }
 
 
-QString SidecarClient::signature( const QString& method, const QString& uri,
+QString SidecarClient::signature( const QString& secret,
+    const QString& method, const QString& uri,
     const QString& date, const QString& hash ) const
 {
   using qsense::hash::Sha1;
   Sha1 sha1;
-  return sha1.sign( qsense::net::data::apiSecret, method, uri, date, hash );
+  return sha1.sign( secret, method, uri, date, hash );
 }

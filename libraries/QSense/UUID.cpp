@@ -71,7 +71,7 @@ UUID::UUID( const QString& uuid )
   parse( uuid );
 }
 
-	
+  
 UUID::UUID( const char* uuid )
 {
   parse( QString( uuid ) );
@@ -92,19 +92,19 @@ UUID::UUID( const char* bytes, Version version )
 
   memcpy( &i32, bytes, sizeof(i32) );
   timeLow = ByteOrder::fromNetwork(i32);
-	bytes += sizeof(i32);
+  bytes += sizeof(i32);
 
   memcpy( &i16, bytes, sizeof(i16) );
   timeMid = ByteOrder::fromNetwork(i16);
-	bytes += sizeof(i16);
+  bytes += sizeof(i16);
 
   memcpy( &i16, bytes, sizeof(i16) );
   timeHiAndVersion = ByteOrder::fromNetwork(i16);
-	bytes += sizeof(i16);
+  bytes += sizeof(i16);
 
   memcpy( &i16, bytes, sizeof(i16) );
   clockSeq = ByteOrder::fromNetwork(i16);
-	bytes += sizeof(i16);
+  bytes += sizeof(i16);
 
   memcpy( node, bytes, sizeof(node) );
 
@@ -121,15 +121,15 @@ UUID::~UUID() {}
 UUID& UUID::operator = ( const UUID& uuid )
 {
   if ( &uuid != this )
-	{
+  {
     timeLow = uuid.timeLow;
     timeMid = uuid.timeMid;
     timeHiAndVersion = uuid.timeHiAndVersion;
     clockSeq = uuid.clockSeq;
     memcpy( node, uuid.node, sizeof( node ) );
-	}
+  }
 
-	return *this;
+  return *this;
 }
 
 
@@ -137,49 +137,49 @@ bool UUID::parse( const QString& uuid )
 {
   if ( uuid.size() < 32 ) return false;
 
-	bool haveHyphens = false;
+  bool haveHyphens = false;
   if ( uuid[8] == '-' && uuid[13] == '-' && uuid[18] == '-' && uuid[23] == '-' )
-	{
+  {
     if ( uuid.size() >= 36 )  haveHyphens = true;
     else return false;
-	}
-	
+  }
+  
   QString::const_iterator it = uuid.begin();
   timeLow = 0;
 
   for ( int i = 0; i < 8; ++i )
-	{
+  {
     timeLow = (timeLow << 4) | nibble(*it++);
-	}
+  }
   if ( haveHyphens ) ++it;
 
   timeMid = 0;
   for ( int i = 0; i < 4; ++i )
-	{
+  {
     timeMid = (timeMid << 4) | nibble(*it++);
-	}
+  }
   if ( haveHyphens ) ++it;
 
   timeHiAndVersion = 0;
   for ( int i = 0; i < 4; ++i )
-	{
+  {
     timeHiAndVersion = (timeHiAndVersion << 4) | nibble(*it++);
-	}
+  }
   if ( haveHyphens ) ++it;
 
   clockSeq = 0;
   for ( int i = 0; i < 4; ++i )
-	{
+  {
     clockSeq = (clockSeq << 4) | nibble(*it++);
-	}
+  }
   if ( haveHyphens ) ++it;
 
   for ( int i = 0; i < 6; ++i )
-	{
+  {
     node[i] = (nibble(*it++) << 4) | nibble(*it++) ;
-	}
+  }
 
-	return true;
+  return true;
 }
 
 
@@ -189,16 +189,16 @@ QString UUID::toString() const
   result.reserve( 36 );
 
   appendHex( result, timeLow );
-	result += '-';
+  result += '-';
   appendHex( result, timeMid );
-	result += '-';
+  result += '-';
   appendHex( result, timeHiAndVersion );
-	result += '-';
+  result += '-';
   appendHex( result, clockSeq );
-	result += '-';
+  result += '-';
   for ( unsigned int i = 0; i < sizeof(node); ++i ) appendHex( result, node[i] );
 
-	return result;
+  return result;
 }
 
 
@@ -209,19 +209,19 @@ void UUID::copyFrom( const char* buffer )
 
   memcpy( &i32, buffer, sizeof(i32) );
   timeLow = ByteOrder::fromNetwork( i32 );
-	buffer += sizeof(i32);
+  buffer += sizeof(i32);
 
   memcpy( &i16, buffer, sizeof(i16) );
   timeMid = ByteOrder::fromNetwork( i16 );
-	buffer += sizeof(i16);
+  buffer += sizeof(i16);
 
   memcpy( &i16, buffer, sizeof(i16) );
   timeHiAndVersion = ByteOrder::fromNetwork(i16);
-	buffer += sizeof(i16);
+  buffer += sizeof(i16);
 
   memcpy( &i16, buffer, sizeof(i16) );
   clockSeq = ByteOrder::fromNetwork(i16);
-	buffer += sizeof(i16);
+  buffer += sizeof(i16);
 
   memcpy( node, buffer, sizeof(node) );
 }
@@ -231,19 +231,19 @@ void UUID::copyTo( char* buffer ) const
 {
   uint32_t i32 = ByteOrder::toNetwork( timeLow );
   memcpy( buffer, &i32, sizeof(i32) );
-	buffer += sizeof(i32);
+  buffer += sizeof(i32);
 
   uint16_t i16 = ByteOrder::toNetwork( timeMid );
   memcpy( buffer, &i16, sizeof(i16) );
-	buffer += sizeof(i16);
+  buffer += sizeof(i16);
 
   i16 = ByteOrder::toNetwork( timeHiAndVersion );
   memcpy( buffer, &i16, sizeof(i16) );
-	buffer += sizeof(i16);
+  buffer += sizeof(i16);
 
   i16 = ByteOrder::toNetwork( clockSeq );
   memcpy( buffer, &i16, sizeof(i16) );
-	buffer += sizeof(i16);
+  buffer += sizeof(i16);
   memcpy( buffer, node, sizeof(node) );
 }
 
@@ -265,20 +265,20 @@ int UUID::compare( const UUID& uuid ) const
   if ( clockSeq != uuid.clockSeq ) return clockSeq < uuid.clockSeq ? -1 : 1;
 
   for ( unsigned int i = 0; i < sizeof(node); ++i )
-	{
+  {
     if (node[i] < uuid.node[i]) return -1;
     else if (node[i] > uuid.node[i]) return 1;
-	}
+  }
 
-	return 0;
+  return 0;
 }
 
 
 void UUID::appendHex( QString& str, uint8_t n )
 {
-	static const char* digits = "0123456789abcdef";
-	str += digits[(n >> 4) & 0xF];
-	str += digits[n & 0xF];
+  static const char* digits = "0123456789abcdef";
+  str += digits[(n >> 4) & 0xF];
+  str += digits[n & 0xF];
 }
 
 
@@ -339,7 +339,7 @@ uint32_t UUID::randomNumber( int32_t x )
 
 namespace
 {
-	static UUID uuidNull;
+  static UUID uuidNull;
   static UUID uuidDNS( "6ba7b810-9dad-11d1-80b4-00c04fd430c8" );
   static UUID uuidURI( "6ba7b811-9dad-11d1-80b4-00c04fd430c8" );
   static UUID uuidOID( "6ba7b812-9dad-11d1-80b4-00c04fd430c8" );
@@ -349,31 +349,31 @@ namespace
 
 const UUID& UUID::null()
 {
-	return uuidNull;
+  return uuidNull;
 }
 
 
 const UUID& UUID::dns()
 {
-	return uuidDNS;
+  return uuidDNS;
 }
 
-	
+  
 const UUID& UUID::uri()
 {
-	return uuidURI;
+  return uuidURI;
 }
 
 
 const UUID& UUID::oid()
 {
-	return uuidOID;
+  return uuidOID;
 }
 
 
 const UUID& UUID::x500()
 {
-	return uuidX500;
+  return uuidX500;
 }
 
 

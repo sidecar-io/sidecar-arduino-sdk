@@ -18,6 +18,15 @@ using qsense::QString;
 
 const int ledPower = 12;
 
+// Sidecar API key/secret pair for creating user account(s).
+// Will be read in from console
+QString apiKey;
+QString apiSecret;
+
+// Sidecar user account to create to retrieve access keys for events API
+QString username;
+QString password;
+
 
 // A proper unique mac address is critical to having a stable UUID generated
 // for events published to Sidecar service.  Please use the MAC address
@@ -39,12 +48,20 @@ void initUUID()
 
 void initSidecar()
 {
-  // Sidecar API key/secret for initialising SidecarClient API.
-  const QString apiKey = "DEROHOVJQ85UITACAGPC";
-  const QString apiSecret = "WEOxAgLUfYd6UhsT88x2j+2+yX6tn00dTwf+fdwV";
+  Serial.setTimeout( 30000 );
+
+  std::cout << F( "Please enter your API key:" ) << std::endl;
+  apiKey = Serial.readStringUntil( '\n' ).c_str();
+
+  std::cout << F( "Please enter your API secret:" ) << std::endl;
+  apiSecret = Serial.readStringUntil( '\n' ).c_str();
+
+  std::cout << F( "Initialising Sidecar API with API key: " ) <<
+    apiKey << F( " and secret: " ) << apiSecret << std::endl;
 
   // Initialise SidecarClient API
   qsense::net::SidecarClient::initAPIKey( apiKey, apiSecret );
+  Serial.setTimeout( 1000 );
 }
 
 
@@ -81,19 +98,83 @@ void createUser()
 {
   using qsense::net::SidecarClient;
 
-  const QString username( "test" );
-  const QString password( "test" );
+  Serial.setTimeout( 30000 );
+
+  std::cout << "Enter email address you wish to use as username:" << std::endl;
+  username = Serial.readStringUntil( '\n' ).c_str();
+
+  std::cout << "Enter password you wish to use with account (8-20 chars):" << std::endl;
+  password = Serial.readStringUntil( '\n' ).c_str();
+
+  std::cout << "Accessing or creating account " << username << "/" << password << std::endl;
+
   SidecarClient client;
 
   const SidecarClient::UserResponse& response = client.createUser( username, password );
 
   if ( response.responseCode == 200 )
   {
-    std::cout << "Created user with userKey: " << response.keyId << " secret: " << response.secret << std::endl;
+    std::cout << "Created user with access key: " << response.keyId << " and secret: " << response.secret << std::endl;
+    std::cout << "Please use this key/secret combination to initialise the Sidecar API using qsense::net::SidecarClient::initUserKey method." << std::endl;
   }
   else
   {
     std::cout << "Error creating user.  Response code: " << response.responseCode << std::endl;
+  }
+
+  Serial.setTimeout( 1000 );
+}
+
+
+// Create or retrieve test user for using the Event API
+void createOrRetrieveUser()
+{
+  using qsense::net::SidecarClient;
+
+  Serial.setTimeout( 30000 );
+
+  std::cout << "Enter username (email address).  New account will be created if non-existing." << std::endl;
+  std::cout << "Username: " << std::endl;
+  username = Serial.readStringUntil( '\n' ).c_str();
+
+  std::cout << "Enter password for your account (8-20 chars):" << std::endl;
+  password = Serial.readStringUntil( '\n' ).c_str();
+
+  std::cout << "Accessing or creating account " << username << "/" << password << std::endl;
+
+  SidecarClient client;
+
+  const SidecarClient::UserResponse& response = client.createOrAuthenticateUser( username, password );
+
+  if ( response.responseCode == 200 )
+  {
+    std::cout << "Created user with access key: " << response.keyId << " and secret: " << response.secret << std::endl;
+    std::cout << "Please use this key/secret combination to initialise the Sidecar API using qsense::net::SidecarClient::initUserKey method." << std::endl;
+  }
+  else
+  {
+    std::cout << "Error creating user.  Response code: " << response.responseCode << std::endl;
+  }
+
+  Serial.setTimeout( 1000 );
+}
+
+
+// Just display the user access keys
+void displayKeys()
+{
+  using qsense::net::SidecarClient;
+  SidecarClient client;
+
+  const SidecarClient::UserResponse& response = client.authenticate( username, password );
+
+  if ( response.responseCode == 200 )
+  {
+    std::cout << "Access key: " << response.keyId << " and secret: " << response.secret << std::endl;
+  }
+  else
+  {
+    std::cout << "Error authenticating user.  Response code: " << response.responseCode << std::endl;
   }
 }
 
@@ -117,13 +198,15 @@ void setup()
 
   initUUID();
   initSidecar();
-  createUser();
+  //createUser();
+  createOrRetrieveUser();
 }
 
 void loop()
 {
   std::cout << F( "Current time: " ) << qsense::net::DateTime::singleton().currentTime() << std::endl;
   
+  displayKeys();
   std::cout << F( "Free SRAM: " ) << freeRam() << std::endl;
   delay( 60000 );
 }

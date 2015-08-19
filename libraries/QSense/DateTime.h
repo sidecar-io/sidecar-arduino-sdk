@@ -6,7 +6,6 @@
 #include "../StandardCplusplus/serstream"
 #else
 #include <QSense.h>
-#include <iostream>
 #endif
 
 namespace qsense
@@ -56,6 +55,10 @@ namespace qsense
       uint32_t lastUpdateMillis;
       int64_t milliSecondsSinceEpoch;
     };
+
+#ifndef ARDUINO
+    uint32_t millis();
+#endif
   }
 }
 
