@@ -426,7 +426,7 @@ public:
 	}
 	_UCXXEXPORT size_type find (Ch c, size_type pos = 0) const{
 		for(size_type i = pos; i < length(); ++i){
-			if(this->operator[](i) == c){
+			if(this->at(i) == c){
 				return i;
 			}
 		}
@@ -456,7 +456,7 @@ public:
 	_UCXXEXPORT size_type find_first_of(const basic_string& str, size_type pos = 0) const{
 		for(size_type i = pos; i < length(); ++i){
 			for(size_type j = 0; j < str.length() ; ++j){
-				if( Tr::eq(str[j], operator[](i)) ){
+				if( str[j] == this->at(i) ){
 					return i;
 				}
 			}
@@ -472,7 +472,7 @@ public:
 	}
 	_UCXXEXPORT size_type find_first_of(Ch c, size_type pos = 0) const{
 		for(size_type i = pos; i< length(); ++i){
-			if( Tr::eq(operator[](i), c) ){
+			if( at(i) == c ){
 				return i;
 			}
 		}
@@ -485,7 +485,7 @@ public:
 		}
 		for(size_type i = pos; i >0 ; --i){
 			for(size_type j = 0 ; j < str.length(); ++j){
-				if( Tr::eq(operator[](i-1), str[j]) ){
+				if( at(i-1) == str[j] ){
 					return i-1;
 				}
 			}
@@ -503,7 +503,7 @@ public:
 			pos = length();
 		}
 		for(size_type i = pos; i >0 ; --i){
-			if( Tr::eq(operator[](i-1), c) ){
+			if( at(i-1) == c ){
 				return i-1;
 			}
 		}
@@ -515,7 +515,7 @@ public:
 		for(size_type i = pos; i < length(); ++i){
 			foundCharacter = false;
                         for(size_type j = 0; j < str.length() ; ++j){
-                                if( Tr::eq(str[j], operator[](i)) ){
+                                if( str[j] == at(i) ){
 					foundCharacter = true;
                                 }
                         }
@@ -534,7 +534,7 @@ public:
 	}
 	_UCXXEXPORT size_type find_first_not_of(Ch c, size_type pos = 0) const{
 		for(size_type i = pos; i < length() ; ++i){
-			if(operator[](i) != c){
+			if(at(i) != c){
 				return i;
 			}
 		}
