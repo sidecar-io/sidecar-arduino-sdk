@@ -34,7 +34,7 @@ QString password;
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 // Set the static IP address to use if the DHCP fails to assign
-IPAddress ip( 192, 168, 0, 177 );
+IPAddress ip( 10, 0, 1, 200 );
 
 
 void initUUID()
@@ -73,6 +73,20 @@ void initEthernet()
     std::cout << F( "Failed to configure Ethernet using DHCP" ) << std::endl;
     Ethernet.begin( mac, ip );
   }
+
+  // give the Ethernet shield a second to initialize:
+  std::cout << F( "Connecting to network..." ) << std::endl;
+  delay( 1000 );
+
+  // Initialise network API to use Ethernet
+  qsense::net::initNetworkType( qsense::net::Ethernet );
+}
+
+
+void initEthernetStatic()
+{
+  IPAddress dnsServer( 208, 67, 222, 222 ); // OpenDNS server
+  Ethernet.begin( mac, ip, dnsServer );
 
   // give the Ethernet shield a second to initialize:
   std::cout << F( "Connecting to network..." ) << std::endl;
@@ -192,14 +206,15 @@ void setup()
   Serial.begin( 57600 );
 
   initEthernet();
+  //initEthernetStatic();
 
   // Set up sensor pin
   pinMode( ledPower, OUTPUT );
 
   initUUID();
   initSidecar();
-  //createUser();
-  createOrRetrieveUser();
+  createUser();
+  //createOrRetrieveUser();
 }
 
 void loop()

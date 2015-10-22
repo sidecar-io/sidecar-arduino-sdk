@@ -69,6 +69,20 @@ void SidecarClient::initUserKey( const QString& userKey, const QString& userSecr
 }
 
 
+const SidecarClient::UserResponse SidecarClient::UserResponse::create(
+  uint16_t response, const qsense::QString& body )
+{
+  std::size_t start = body.find_first_of( "keyId\":\"" );
+  std::size_t end = body.find( "\",\"" );
+  const QString& keyId = body.substr( start + 8, end - ( start + 8 ) );
+
+  start = body.find_first_of( "secret\":\"" );
+  end = body.find( '"', start + 9 );
+  const QString& secret = body.substr( start + 9, end - ( start + 9 ) );
+  return UserResponse( response, keyId, secret );
+}
+
+
 SidecarClient::UserResponse SidecarClient::createUser(
   const QString& username, const QString& password )
 {
@@ -106,13 +120,14 @@ SidecarClient::UserResponse SidecarClient::createUser(
       request.setHeader( "Content-Length", ss.str() );
     }
 
-    QString auth( "SIDECAR " );
-    auth.
-      append( qsense::net::data::apiKey ).
-      append( ":" ).
-      append( signature( qsense::net::data::apiSecret,
-        data::POST, uri, currentTime, hash ).c_str() );
-    request.setHeader( "Authorization", auth );
+    std::stringstream ss;
+    ss << "SIDECAR " <<
+      qsense::net::data::apiKey <<
+      ':' <<
+      signature( qsense::net::data::apiSecret,
+        data::POST, uri, currentTime, hash );
+
+    request.setHeader( "Authorization", ss.str() );
 
     request.setBody( json );
 
@@ -126,15 +141,7 @@ SidecarClient::UserResponse SidecarClient::createUser(
     if ( responseCode == 200 )
     {
       const QString& body = client->readBody();
-
-      std::size_t start = body.find_first_of( "keyId\":\"" );
-      std::size_t end = body.find( '"', start + 8 );
-      const QString& keyId = body.substr( start + 8, end - ( start + 8 ) );
-
-      start = body.find_first_of( "secret\":\"" );
-      end = body.find( '"', start + 9 );
-      const QString& secret = body.substr( start + 9, end - ( start + 9 ) );
-      return UserResponse( responseCode, keyId, secret );
+      return UserResponse::create( responseCode, body );
     }
     else
     {
@@ -149,7 +156,7 @@ SidecarClient::UserResponse SidecarClient::createUser(
 }
 
 
-SidecarClient::UserResponse SidecarClient::createOrAuthenticateUser(
+SidecarClient::UserResponse SidecarClient::createOrRetrieveAccessKeys(
   const QString& username, const QString& password )
 {
   using qsense::net::DateTime;
@@ -186,13 +193,13 @@ SidecarClient::UserResponse SidecarClient::createOrAuthenticateUser(
       request.setHeader( "Content-Length", ss.str() );
     }
 
-    QString auth( "SIDECAR " );
-    auth.
-      append( qsense::net::data::apiKey ).
-      append( ":" ).
-      append( signature( qsense::net::data::apiSecret,
-        data::POST, uri, currentTime, hash ).c_str() );
-    request.setHeader( "Authorization", auth );
+    std::stringstream ss;
+    ss << "SIDECAR " <<
+      qsense::net::data::apiKey <<
+      ':' <<
+      signature( qsense::net::data::apiSecret, data::POST, uri, currentTime, hash );
+
+    request.setHeader( "Authorization", ss.str() );
 
     request.setBody( json );
 
@@ -206,15 +213,7 @@ SidecarClient::UserResponse SidecarClient::createOrAuthenticateUser(
     if ( responseCode == 200 )
     {
       const QString& body = client->readBody();
-
-      std::size_t start = body.find_first_of( "keyId\":\"" );
-      std::size_t end = body.find( '"', start + 8 );
-      const QString& keyId = body.substr( start + 8, end - ( start + 8 ) );
-
-      start = body.find_first_of( "secret\":\"" );
-      end = body.find( '"', start + 9 );
-      const QString& secret = body.substr( start + 9, end - ( start + 9 ) );
-      return UserResponse( responseCode, keyId, secret );
+      return UserResponse::create( responseCode, body );
     }
     else
     {
@@ -266,13 +265,12 @@ SidecarClient::UserResponse SidecarClient::authenticate(
       request.setHeader( "Content-Length", ss.str() );
     }
 
-    QString auth( "SIDECAR " );
-    auth.
-      append( qsense::net::data::apiKey ).
-      append( ":" ).
-      append( signature( qsense::net::data::apiSecret,
-        data::POST, uri, currentTime, hash ).c_str() );
-    request.setHeader( "Authorization", auth );
+    std::stringstream ss;
+    ss << "SIDECAR " <<
+      qsense::net::data::apiKey <<
+      ':' <<
+      signature( qsense::net::data::apiSecret, data::POST, uri, currentTime, hash );
+    request.setHeader( "Authorization", ss.str() );
 
     request.setBody( json );
 
@@ -286,15 +284,7 @@ SidecarClient::UserResponse SidecarClient::authenticate(
     if ( responseCode == 200 )
     {
       const QString& body = client->readBody();
-
-      std::size_t start = body.find_first_of( "keyId\":\"" );
-      std::size_t end = body.find( '"', start + 8 );
-      const QString& keyId = body.substr( start + 8, end - ( start + 8 ) );
-
-      start = body.find_first_of( "secret\":\"" );
-      end = body.find( '"', start + 9 );
-      const QString& secret = body.substr( start + 9, end - ( start + 9 ) );
-      return UserResponse( responseCode, keyId, secret );
+      return UserResponse::create( responseCode, body );
     }
     else
     {
@@ -346,13 +336,12 @@ int16_t SidecarClient::deleteUser( const QString& username, const QString& passw
       request.setHeader( "Content-Length", ss.str() );
     }
 
-    QString auth( "SIDECAR " );
-    auth.
-      append( qsense::net::data::apiKey ).
-      append( ":" ).
-      append( signature( qsense::net::data::apiSecret,
-        data::DELETE, uri, currentTime, hash ).c_str() );
-    request.setHeader( "Authorization", auth );
+    std::stringstream ss;
+    ss << "SIDECAR " <<
+      qsense::net::data::apiKey <<
+      ':' <<
+      signature( qsense::net::data::apiSecret, data::DELETE, uri, currentTime, hash );
+    request.setHeader( "Authorization", ss.str() );
 
     request.setBody( json );
 
@@ -404,13 +393,12 @@ bool SidecarClient::publish( const qsense::Event& event ) const
       request.setHeader( "Content-Length", ss.str() );
     }
 
-    QString auth( "SIDECAR " );
-    auth.
-      append( qsense::net::data::userKey ).
-      append( ":" ).
-      append( signature( qsense::net::data::userSecret,
-        data::POST, uri, currentTime, hash ).c_str() );
-    request.setHeader( "Authorization", auth );
+    std::stringstream ss;
+    ss << "SIDECAR " <<
+      qsense::net::data::userKey <<
+      ':' <<
+      signature( qsense::net::data::userSecret, data::POST, uri, currentTime, hash );
+    request.setHeader( "Authorization", ss.str() );
 
     request.setBody( eventJson );
 

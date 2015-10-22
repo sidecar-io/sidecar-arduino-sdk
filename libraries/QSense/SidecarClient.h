@@ -24,9 +24,13 @@ namespace qsense
       struct UserResponse
       {
         /// Create a new UserResponse instance
-        UserResponse( uint16_t response, const QString& key = QString(), 
-          const QString& sec = QString() ) : 
+        UserResponse( uint16_t response, const QString& key = QString(),
+          const QString& sec = QString() ) :
           responseCode( response ), keyId( key ), secret( sec ) {}
+
+        /// Create a new UserResponse instance and populate the key and
+        /// secret by parsing the response body
+        static const UserResponse create( uint16_t response, const QString& body );
 
         uint16_t responseCode;
         const QString keyId;
@@ -50,16 +54,15 @@ namespace qsense
       UserResponse createUser( const QString& username, const QString& password );
 
       /**
-       * @brief Create or authenticate the specified user with Sidecar.
-       * Sidecar will automatically create the user account if account
-       * does not exist.
+       * @brief Create or retrieve application access keys for the
+       * specified user.
        *
        * @param username The username preferred by user (email format)
        * @param password The password to associate with user account (8-20 char length)
        * @return  Return a UserResponse struct with key/secret pair populated
        *   on success.
        */
-      UserResponse createOrAuthenticateUser( const QString& username, const QString& password );
+      UserResponse createOrRetrieveAccessKeys( const QString& username, const QString& password );
 
       /**
        * @brief Authenticate the user against Sidecar.  Return the existing
