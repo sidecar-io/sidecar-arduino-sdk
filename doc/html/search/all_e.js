@@ -1,11 +1,7 @@
 var searchData=
 [
-  ['base64',['base64',['../namespaceqsense_1_1hash_1_1base64.xhtml',1,'qsense::hash']]],
-  ['hash',['hash',['../namespaceqsense_1_1hash.xhtml',1,'qsense']]],
-  ['qsense_20sidecar_20library',['QSense Sidecar Library',['../index.xhtml',1,'']]],
-  ['net',['net',['../namespaceqsense_1_1net.xhtml',1,'qsense']]],
-  ['qhttpclient_2eh',['QHttpClient.h',['../_q_http_client_8h.xhtml',1,'']]],
-  ['qsense',['qsense',['../namespaceqsense.xhtml',1,'']]],
-  ['qsense_2eh',['QSense.h',['../_q_sense_8h.xhtml',1,'']]],
-  ['qstring',['QString',['../namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280',1,'qsense']]]
+  ['parse',['parse',['../classqsense_1_1_u_u_i_d.xhtml#a0a4799aafd7412018f9fd3644583f351',1,'qsense::UUID']]],
+  ['post',['post',['../classqsense_1_1net_1_1_http_client.xhtml#ab1c89e77ecfae17150b9b9779ec43c33',1,'qsense::net::HttpClient']]],
+  ['ptr',['Ptr',['../classqsense_1_1net_1_1_http_client.xhtml#adcde155748e7f303446821c697fb7ff1',1,'qsense::net::HttpClient']]],
+  ['publish',['publish',['../classqsense_1_1net_1_1_sidecar_client.xhtml#a6c17fd99c1db256b346e538c1b0d6999',1,'qsense::net::SidecarClient::publish()'],['../class_simple_sidecar_client.xhtml#ac09167a37d178cfebc868bbc591101f6',1,'SimpleSidecarClient::publish()']]]
 ];

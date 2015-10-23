@@ -4,7 +4,17 @@ var NAVTREE =
     [ "Contents", "index.xhtml#contents", null ],
     [ "Overview", "index.xhtml#overview", null ],
     [ "Workflow", "index.xhtml#workflow", null ],
-    [ "Initialisation", "index.xhtml#init", null ],
+    [ "Initialisation", "index.xhtml#init", [
+      [ "Simple Arduino API", "index.xhtml#isai", [
+        [ "Provisioning API", "index.xhtml#ipi", null ],
+        [ "Event API", "index.xhtml#iei", null ]
+      ] ],
+      [ "Core API", "index.xhtml#ici", null ]
+    ] ],
+    [ "Publish Sensor Data", "index.xhtml#publish", [
+      [ "Simple Arduino API", "index.xhtml#psai", null ],
+      [ "Core API", "index.xhtml#pci", null ]
+    ] ],
     [ "Libraries", "index.xhtml#libraries", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.xhtml", "namespaces" ],
@@ -19,9 +29,10 @@ var NAVTREE =
     [ "Classes", null, [
       [ "Class List", "annotated.xhtml", "annotated" ],
       [ "Class Index", "classes.xhtml", null ],
+      [ "Class Hierarchy", "hierarchy.xhtml", "hierarchy" ],
       [ "Class Members", "functions.xhtml", [
-        [ "All", "functions.xhtml", null ],
-        [ "Functions", "functions_func.xhtml", null ],
+        [ "All", "functions.xhtml", "functions_dup" ],
+        [ "Functions", "functions_func.xhtml", "functions_func" ],
         [ "Variables", "functions_vars.xhtml", null ],
         [ "Typedefs", "functions_type.xhtml", null ],
         [ "Enumerations", "functions_enum.xhtml", null ],
@@ -40,7 +51,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_base64_8h.xhtml"
+"_auto_ptr_8h.xhtml",
+"functions_func_h.xhtml"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

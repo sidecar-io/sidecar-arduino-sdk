@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['total',['total',['../structqsense_1_1hash_1_1_sha1_1_1_context.xhtml#a521b33377a05089c2b573be1b05343d4',1,'qsense::hash::Sha1::Context']]]
+  ['responsecode',['responseCode',['../structqsense_1_1net_1_1_sidecar_client_1_1_user_response.xhtml#a785d50a9e4404efe611e28d863893f1b',1,'qsense::net::SidecarClient::UserResponse::responseCode()'],['../struct_simple_sidecar_client_1_1_user_response.xhtml#a533f9c3e68869e672659943bf7904d05',1,'SimpleSidecarClient::UserResponse::responseCode()']]]
 ];

@@ -18,13 +18,23 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<polygon fill="white" stroke="#bfbfbf" points="49.5,-0.5 49.5,-19.5 90.5,-19.5 90.5,-0.5 49.5,-0.5"/>
-<text text-anchor="middle" x="70" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">string</text>
+<polygon fill="white" stroke="#bfbfbf" points="17.5,-0.5 17.5,-19.5 62.5,-19.5 62.5,-0.5 17.5,-0.5"/>
+<text text-anchor="middle" x="40" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">cstdint</text>
 </g>
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M70,-56.4979C70,-48.0653 70,-38.2351 70,-29.874"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="73.5001,-29.6525 70,-19.6525 66.5001,-29.6525 73.5001,-29.6525"/>
+<path fill="none" stroke="midnightblue" d="M60.999,-56.4979C56.9302,-47.682 52.1562,-37.3385 48.1892,-28.7432"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="51.362,-27.2654 43.9935,-19.6525 45.0062,-30.1988 51.362,-27.2654"/>
+</g>
+<!-- Node3 -->
+<g id="node3" class="node"><title>Node3</title>
+<polygon fill="white" stroke="#bfbfbf" points="80.5,-0.5 80.5,-19.5 121.5,-19.5 121.5,-0.5 80.5,-0.5"/>
+<text text-anchor="middle" x="101" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">string</text>
+</g>
+<!-- Node1&#45;&gt;Node3 -->
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M79.301,-56.4979C83.5055,-47.682 88.4386,-37.3385 92.5378,-28.7432"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="95.7278,-30.1852 96.8734,-19.6525 89.4095,-27.1719 95.7278,-30.1852"/>
 </g>
 </g>
 </svg>

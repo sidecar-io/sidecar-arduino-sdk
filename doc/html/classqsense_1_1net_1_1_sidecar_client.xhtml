@@ -73,6 +73,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.xhtml"><span>Class&#160;List</span></a></li>
       <li><a href="classes.xhtml"><span>Class&#160;Index</span></a></li>
+      <li><a href="inherits.xhtml"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.xhtml"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -107,6 +108,7 @@ $(document).ready(function(){initNavTree('classqsense_1_1net_1_1_sidecar_client.
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classqsense_1_1net_1_1_sidecar_client-members.xhtml">List of all members</a>  </div>
@@ -120,22 +122,188 @@ $(document).ready(function(){initNavTree('classqsense_1_1net_1_1_sidecar_client.
 
 <p><code>#include &lt;SidecarClient.h&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structqsense_1_1net_1_1_sidecar_client_1_1_user_response.xhtml">UserResponse</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A simple structure that represents the result of a user provisioning request.  <a href="structqsense_1_1net_1_1_sidecar_client_1_1_user_response.xhtml#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3626588a673d1b53a8c916851ddb890a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a3626588a673d1b53a8c916851ddb890a">publish</a> (const <a class="el" href="classqsense_1_1_event.xhtml">qsense::Event</a> &amp;event) const </td></tr>
-<tr class="memdesc:a3626588a673d1b53a8c916851ddb890a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Publish the specified event to the Sidecar <a class="el" href="classqsense_1_1_event.xhtml" title="A simple class that encapsulates an event sent to Sidecar. Events are holders for readings...">Event</a> API.  <a href="#a3626588a673d1b53a8c916851ddb890a">More...</a><br /></td></tr>
-<tr class="separator:a3626588a673d1b53a8c916851ddb890a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a207215f50bccfef63249b743436d5b6a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structqsense_1_1net_1_1_sidecar_client_1_1_user_response.xhtml">UserResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a207215f50bccfef63249b743436d5b6a">createUser</a> (const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;username, const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;password)</td></tr>
+<tr class="memdesc:a207215f50bccfef63249b743436d5b6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new user account with Sidecar. This is usually the first interaction with the Sidecar service. Needed only once per application.  <a href="#a207215f50bccfef63249b743436d5b6a">More...</a><br /></td></tr>
+<tr class="separator:a207215f50bccfef63249b743436d5b6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe42bbe2edb851ec0caa44b9e8b32878"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structqsense_1_1net_1_1_sidecar_client_1_1_user_response.xhtml">UserResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#afe42bbe2edb851ec0caa44b9e8b32878">createOrRetrieveAccessKeys</a> (const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;username, const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;password)</td></tr>
+<tr class="memdesc:afe42bbe2edb851ec0caa44b9e8b32878"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create or retrieve application access keys for the specified user.  <a href="#afe42bbe2edb851ec0caa44b9e8b32878">More...</a><br /></td></tr>
+<tr class="separator:afe42bbe2edb851ec0caa44b9e8b32878"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaab5462b2f1b66c65f9b3272f92d4d76"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structqsense_1_1net_1_1_sidecar_client_1_1_user_response.xhtml">UserResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#aaab5462b2f1b66c65f9b3272f92d4d76">authenticate</a> (const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;username, const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;password)</td></tr>
+<tr class="memdesc:aaab5462b2f1b66c65f9b3272f92d4d76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Authenticate the user against Sidecar. Return the existing user key/secret pair to use with the events API.  <a href="#aaab5462b2f1b66c65f9b3272f92d4d76">More...</a><br /></td></tr>
+<tr class="separator:aaab5462b2f1b66c65f9b3272f92d4d76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a214ad1d4309a236d89ce206a9fdb0575"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a214ad1d4309a236d89ce206a9fdb0575">deleteUser</a> (const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;username, const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;password)</td></tr>
+<tr class="memdesc:a214ad1d4309a236d89ce206a9fdb0575"><td class="mdescLeft">&#160;</td><td class="mdescRight">deleteUser Deprovision a user from the system. Removes the user account, access key/secret and devices associated with the user.  <a href="#a214ad1d4309a236d89ce206a9fdb0575">More...</a><br /></td></tr>
+<tr class="separator:a214ad1d4309a236d89ce206a9fdb0575"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c17fd99c1db256b346e538c1b0d6999"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a6c17fd99c1db256b346e538c1b0d6999">publish</a> (const <a class="el" href="classqsense_1_1_event.xhtml">Event</a> &amp;event) const </td></tr>
+<tr class="memdesc:a6c17fd99c1db256b346e538c1b0d6999"><td class="mdescLeft">&#160;</td><td class="mdescRight">Publish the specified event to the Sidecar <a class="el" href="classqsense_1_1_event.xhtml" title="A simple class that encapsulates an event sent to Sidecar. Events are holders for readings...">Event</a> API.  <a href="#a6c17fd99c1db256b346e538c1b0d6999">More...</a><br /></td></tr>
+<tr class="separator:a6c17fd99c1db256b346e538c1b0d6999"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a13773e8b8b30d0a1d00aa5912291864c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a13773e8b8b30d0a1d00aa5912291864c">init</a> (const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">qsense::QString</a> &amp;apiKey, const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">qsense::QString</a> &amp;apiSecret)</td></tr>
-<tr class="memdesc:a13773e8b8b30d0a1d00aa5912291864c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise the API with the key and secret used to sign messages.  <a href="#a13773e8b8b30d0a1d00aa5912291864c">More...</a><br /></td></tr>
-<tr class="separator:a13773e8b8b30d0a1d00aa5912291864c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02392957775e35f476a2901551aedd62"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a02392957775e35f476a2901551aedd62">initAPIKey</a> (const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;apiKey, const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;apiSecret)</td></tr>
+<tr class="memdesc:a02392957775e35f476a2901551aedd62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise the API with the API key and secret used to sign provisioning requests.  <a href="#a02392957775e35f476a2901551aedd62">More...</a><br /></td></tr>
+<tr class="separator:a02392957775e35f476a2901551aedd62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3bbc12110e4faf03fa49caf2b56e0a3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#ae3bbc12110e4faf03fa49caf2b56e0a3">initUserKey</a> (const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;userKey, const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;userSecret)</td></tr>
+<tr class="memdesc:ae3bbc12110e4faf03fa49caf2b56e0a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise the API with the user key and secret used to sign event requests.  <a href="#ae3bbc12110e4faf03fa49caf2b56e0a3">More...</a><br /></td></tr>
+<tr class="separator:ae3bbc12110e4faf03fa49caf2b56e0a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class that encapsulates interactions with the Sidecar REST API. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a13773e8b8b30d0a1d00aa5912291864c"></a>
+<a class="anchor" id="aaab5462b2f1b66c65f9b3272f92d4d76"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structqsense_1_1net_1_1_sidecar_client_1_1_user_response.xhtml">UserResponse</a> qsense::net::SidecarClient::authenticate </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;&#160;</td>
+          <td class="paramname"><em>username</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;&#160;</td>
+          <td class="paramname"><em>password</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Authenticate the user against Sidecar. Return the existing user key/secret pair to use with the events API. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">username</td><td>The username of the user to authenticate as </td></tr>
+    <tr><td class="paramname">password</td><td>The password to use to authenticate </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The response which on success will contain the key/secret pair </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="afe42bbe2edb851ec0caa44b9e8b32878"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structqsense_1_1net_1_1_sidecar_client_1_1_user_response.xhtml">UserResponse</a> qsense::net::SidecarClient::createOrRetrieveAccessKeys </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;&#160;</td>
+          <td class="paramname"><em>username</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;&#160;</td>
+          <td class="paramname"><em>password</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create or retrieve application access keys for the specified user. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">username</td><td>The username preferred by user (email format) </td></tr>
+    <tr><td class="paramname">password</td><td>The password to associate with user account (8-20 char length) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Return a <a class="el" href="structqsense_1_1net_1_1_sidecar_client_1_1_user_response.xhtml" title="A simple structure that represents the result of a user provisioning request. ">UserResponse</a> struct with key/secret pair populated on success. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a207215f50bccfef63249b743436d5b6a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structqsense_1_1net_1_1_sidecar_client_1_1_user_response.xhtml">UserResponse</a> qsense::net::SidecarClient::createUser </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;&#160;</td>
+          <td class="paramname"><em>username</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;&#160;</td>
+          <td class="paramname"><em>password</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a new user account with Sidecar. This is usually the first interaction with the Sidecar service. Needed only once per application. </p>
+<p>If the method returns with empty key/secret pair, it generally indicates that the username is taken or username/password failed format/length rules.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">username</td><td>The username preferred by user (email format) </td></tr>
+    <tr><td class="paramname">password</td><td>The password to associate with user account (8-20 char length) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Return a <a class="el" href="structqsense_1_1net_1_1_sidecar_client_1_1_user_response.xhtml" title="A simple structure that represents the result of a user provisioning request. ">UserResponse</a> struct with key/secret pair populated on success. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a214ad1d4309a236d89ce206a9fdb0575"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t qsense::net::SidecarClient::deleteUser </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;&#160;</td>
+          <td class="paramname"><em>username</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;&#160;</td>
+          <td class="paramname"><em>password</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>deleteUser Deprovision a user from the system. Removes the user account, access key/secret and devices associated with the user. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">username</td><td>The username of the user account </td></tr>
+    <tr><td class="paramname">password</td><td>The password for the user account. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The HTTP response code returned by Sidecar. Response code <code>204</code> indicates success. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a02392957775e35f476a2901551aedd62"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -143,15 +311,15 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void qsense::net::SidecarClient::init </td>
+          <td class="memname">static void qsense::net::SidecarClient::initAPIKey </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">qsense::QString</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;&#160;</td>
           <td class="paramname"><em>apiKey</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">qsense::QString</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;&#160;</td>
           <td class="paramname"><em>apiSecret</em>&#160;</td>
         </tr>
         <tr>
@@ -167,18 +335,54 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Initialise the API with the key and secret used to sign messages. </p>
+<p>Initialise the API with the API key and secret used to sign provisioning requests. </p>
 
 </div>
 </div>
-<a class="anchor" id="a3626588a673d1b53a8c916851ddb890a"></a>
+<a class="anchor" id="ae3bbc12110e4faf03fa49caf2b56e0a3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void qsense::net::SidecarClient::initUserKey </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;&#160;</td>
+          <td class="paramname"><em>userKey</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">QString</a> &amp;&#160;</td>
+          <td class="paramname"><em>userSecret</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initialise the API with the user key and secret used to sign event requests. </p>
+
+</div>
+</div>
+<a class="anchor" id="a6c17fd99c1db256b346e538c1b0d6999"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool qsense::net::SidecarClient::publish </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classqsense_1_1_event.xhtml">qsense::Event</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classqsense_1_1_event.xhtml">Event</a> &amp;&#160;</td>
           <td class="paramname"><em>event</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -198,7 +402,7 @@ Static Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceqsense.xhtml">qsense</a></li><li class="navelem"><a class="el" href="namespaceqsense_1_1net.xhtml">net</a></li><li class="navelem"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">SidecarClient</a></li>
-    <li class="footer">Generated on Sun May 24 2015 21:43:54 for QSense Sidecar Library by
+    <li class="footer">Generated on Fri Oct 23 2015 17:52:33 for QSense Sidecar Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

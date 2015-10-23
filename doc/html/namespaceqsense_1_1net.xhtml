@@ -122,6 +122,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1net_1_1_http_client.xhtml">HttpClient</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A HTTP Client class for use with either ethernet or wifi. Before use, the client should be initialised with the network type used by the device (<a class="el" href="namespaceqsense_1_1net.xhtml#ad07cee7867c08434996d81e40c8d9486">qsense::net::initNetworkType</a>.  <a href="classqsense_1_1net_1_1_http_client.xhtml#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1net_1_1_http_request.xhtml">HttpRequest</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A simple class that represents a HTTP request. Request encapsulates the URI path, any request parameters, header attributes, body etc. as appropriate.  <a href="classqsense_1_1net_1_1_http_request.xhtml#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">SidecarClient</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class that encapsulates interactions with the Sidecar REST API.  <a href="classqsense_1_1net_1_1_sidecar_client.xhtml#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -136,6 +139,8 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a5f017dcf50bfbb2acfa0b9b7a05718a0"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceqsense_1_1net.xhtml#a5f017dcf50bfbb2acfa0b9b7a05718a0">millis</a> ()</td></tr>
+<tr class="separator:a5f017dcf50bfbb2acfa0b9b7a05718a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad07cee7867c08434996d81e40c8d9486"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceqsense_1_1net.xhtml#ad07cee7867c08434996d81e40c8d9486">initNetworkType</a> (<a class="el" href="namespaceqsense_1_1net.xhtml#a55b9e275af25aa51529bb423de562576">NetworkType</a> type)</td></tr>
 <tr class="separator:ad07cee7867c08434996d81e40c8d9486"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -176,7 +181,22 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Initialise the API to use the specified type. <a class="el" href="classqsense_1_1net_1_1_http_client.xhtml#a54e3145f31e547f024a1588ff2dfa16c">HttpClient::create</a> uses this type to create appropriate implementation. </p>
+<p>Initialise the API to use the specified type. <a class="el" href="classqsense_1_1net_1_1_http_client.xhtml#a19338fb4dbdbd4820eff3a34adba6feb">HttpClient::create</a> uses this type to create appropriate implementation. </p>
+
+</div>
+</div>
+<a class="anchor" id="a5f017dcf50bfbb2acfa0b9b7a05718a0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t qsense::net::millis </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -186,7 +206,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceqsense.xhtml">qsense</a></li><li class="navelem"><a class="el" href="namespaceqsense_1_1net.xhtml">net</a></li>
-    <li class="footer">Generated on Sun May 24 2015 21:43:54 for QSense Sidecar Library by
+    <li class="footer">Generated on Fri Oct 23 2015 17:52:33 for QSense Sidecar Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

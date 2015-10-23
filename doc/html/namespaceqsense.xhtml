@@ -124,6 +124,9 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1_auto_ptr.xhtml">AutoPtr</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classqsense_1_1_auto_ptr.xhtml" title="AutoPtr is a &quot;smart&quot; pointer for classes implementing reference counting based garbage collection...">AutoPtr</a> is a "smart" pointer for classes implementing reference counting based garbage collection.  <a href="classqsense_1_1_auto_ptr.xhtml#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1_byte_order.xhtml">ByteOrder</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class contains a number of static methods to convert between big-endian and little-endian integers of various sizes.  <a href="classqsense_1_1_byte_order.xhtml#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,6 +138,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1_reading.xhtml">Reading</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A class that represents a single reading. Readings are added to an <a class="el" href="classqsense_1_1_event.xhtml">Event</a>.  <a href="classqsense_1_1_reading.xhtml#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1_ref_counted_object.xhtml">RefCountedObject</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A base class for objects that employ reference counting based garbage collection.  <a href="classqsense_1_1_ref_counted_object.xhtml#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classqsense_1_1_u_u_i_d.xhtml">UUID</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A class that represents a UUID/GUID.  <a href="classqsense_1_1_u_u_i_d.xhtml#details">More...</a><br /></td></tr>
@@ -149,6 +155,9 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:aa3e682a972f3fd246019ca3b0bd5a096"><td class="memTemplParams" colspan="2">template&lt;class C &gt; </td></tr>
+<tr class="memitem:aa3e682a972f3fd246019ca3b0bd5a096"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceqsense.xhtml#aa3e682a972f3fd246019ca3b0bd5a096">swap</a> (<a class="el" href="classqsense_1_1_auto_ptr.xhtml">AutoPtr</a>&lt; C &gt; &amp;p1, <a class="el" href="classqsense_1_1_auto_ptr.xhtml">AutoPtr</a>&lt; C &gt; &amp;p2)</td></tr>
+<tr class="separator:aa3e682a972f3fd246019ca3b0bd5a096"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a295eb0b19fb6c5615a4b1b766f0939ca"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceqsense.xhtml#a295eb0b19fb6c5615a4b1b766f0939ca">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classqsense_1_1_event.xhtml">Event</a> &amp;event)</td></tr>
 <tr class="memdesc:a295eb0b19fb6c5615a4b1b766f0939ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialise the specified event as JSON to the output stream.  <a href="#a295eb0b19fb6c5615a4b1b766f0939ca">More...</a><br /></td></tr>
 <tr class="separator:a295eb0b19fb6c5615a4b1b766f0939ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -273,13 +282,49 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aa3e682a972f3fd246019ca3b0bd5a096"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class C &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void qsense::swap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classqsense_1_1_auto_ptr.xhtml">AutoPtr</a>&lt; C &gt; &amp;&#160;</td>
+          <td class="paramname"><em>p1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classqsense_1_1_auto_ptr.xhtml">AutoPtr</a>&lt; C &gt; &amp;&#160;</td>
+          <td class="paramname"><em>p2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceqsense.xhtml">qsense</a></li>
-    <li class="footer">Generated on Sun May 24 2015 21:43:54 for QSense Sidecar Library by
+    <li class="footer">Generated on Fri Oct 23 2015 17:52:33 for QSense Sidecar Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['mainpage_2edox',['mainpage.dox',['../mainpage_8dox.xhtml',1,'']]],
-  ['md5',['MD5',['../classqsense_1_1hash_1_1_m_d5.xhtml#a141b809a258eff57d7986c3dff26ddef',1,'qsense::hash::MD5']]],
-  ['md5',['MD5',['../classqsense_1_1hash_1_1_m_d5.xhtml',1,'qsense::hash']]],
-  ['md5_2eh',['MD5.h',['../_m_d5_8h.xhtml',1,'']]],
-  ['md5_5fhash_5flength',['MD5_HASH_LENGTH',['../_m_d5_8h.xhtml#a782c3666ed879b60b7d06c86b8f5fbb5',1,'MD5.h']]]
+  ['location',['Location',['../classqsense_1_1_location.xhtml',1,'qsense']]],
+  ['location',['Location',['../classqsense_1_1_location.xhtml#a66c84be4c9f689d90e730e1488b2e8d3',1,'qsense::Location::Location()'],['../classqsense_1_1_location.xhtml#aa0f342a201e1f0bb9c75cb50ca0444e6',1,'qsense::Location::Location(float lat, float lon)'],['../classqsense_1_1_location.xhtml#a1bcad6aa4356830c16ac5f85799e463d',1,'qsense::Location::Location(const Location &amp;location)']]],
+  ['location_2eh',['Location.h',['../_location_8h.xhtml',1,'']]]
 ];

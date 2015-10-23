@@ -109,43 +109,88 @@ Contents</h1>
 <li><a class="el" href="index.xhtml#overview">Overview</a> Overview </li>
 <li><a class="el" href="index.xhtml#workflow">Workflow</a> Workflow </li>
 <li><a class="el" href="index.xhtml#init">Initialisation</a> Initialisation </li>
+<li><a class="el" href="index.xhtml#publish">Publish Sensor Data</a> Publish Sensor Data </li>
 <li><a class="el" href="index.xhtml#libraries">Libraries</a> Libraries</li>
 </ul>
 <h1><a class="anchor" id="overview"></a>
 Overview</h1>
-<p>A standard C++ library for interacting with the Sidecar Event API. Developed for use on Arduino platform, but may be easily extended to work on other platforms.</p>
+<p>A standard C++ library for interacting with the Sidecar Event API. Developed for use on Arduino platform, but was developed and tested on Mac OS X and Windows.</p>
+<p>The library exposes two interfaces. A simple (<a class="el" href="class_simple_sidecar_client.xhtml">SimpleSidecarClient</a>) Arduino specific class that abstracts the raw C++ API, and the raw C++ API that can be used from all platforms (including Arduino).</p>
 <h1><a class="anchor" id="workflow"></a>
 Workflow</h1>
 <p>The general workflow for publishing an event to the Sidecar Event API is as follows:</p>
 <ul>
-<li>Initialise the QSense Sidecar Library (<a class="el" href="index.xhtml#init">Initialisation</a>). </li>
+<li>Register with Sidecar and provision your application with an access key/secret pair. </li>
+<li>While bootstrapping your application, provision a user account (email address/password) and retrieve the user access key/secret pair. Use the user access key/secret to initialise the library. </li>
 <li>Create an instance of <a class="el" href="classqsense_1_1_event.xhtml">qsense::Event</a>. </li>
 <li>Add instances of <a class="el" href="classqsense_1_1_reading.xhtml">qsense::Reading</a> to the event. </li>
 <li>Add any tag values to the event (tags are instances of <a class="el" href="namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280">qsense::QString</a>). </li>
 <li>Create an instance of <a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">qsense::net::SidecarClient</a> </li>
-<li>Publish the event using <a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a3626588a673d1b53a8c916851ddb890a">qsense::net::SidecarClient::publish</a></li>
+<li>Publish the event using <a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a6c17fd99c1db256b346e538c1b0d6999">qsense::net::SidecarClient::publish</a></li>
 </ul>
+<p>The simplified Arduino client encapsulates all these steps and variety of classes into a single class. There is no need to create instances of <a class="el" href="classqsense_1_1_event.xhtml">qsense::Event</a> or <a class="el" href="classqsense_1_1_reading.xhtml">qsense::Reading</a>. You can add reading data directly to the client and then publish the accumulated readings as one event.</p>
 <h1><a class="anchor" id="init"></a>
 Initialisation</h1>
-<p>The QSense Sidecar Library needs some initialisation (from the Arduino sketch for instance). The accompanying sketch illustrates the recommended way of initialising the library.</p>
+<p>The QSense Sidecar Library needs some initialisation (from the Arduino sketch for instance). The accompanying example sketches illustrate the recommended way of initialising the library.</p>
+<h2><a class="anchor" id="isai"></a>
+Simple Arduino API</h2>
+<ul>
+<li>Initialise the library with the type of networking used by the device using the <a class="el" href="class_simple_sidecar_client.xhtml#a4aa20b32411af5bf15f1b3e1538baf94">SimpleSidecarClient::initNetworkType</a> static method. </li>
+<li>Initialise the UUID engine with a proper MAC address using the <a class="el" href="class_simple_sidecar_client.xhtml#a011da9dd9e7360bf8c28ef2d0e0573bc">SimpleSidecarClient::initUUID</a> methods. Note, that there is an overloaded version of the method that will generate a random MAC address to use to initialise the UUID engine.</li>
+</ul>
+<h3><a class="anchor" id="ipi"></a>
+Provisioning API</h3>
+<ul>
+<li>Initialise the API with the application access key/secret pair via the <a class="el" href="class_simple_sidecar_client.xhtml#a8b73149ff9c868aa4ddd516e1bc32869">SimpleSidecarClient::initAPIKey</a> method. </li>
+<li>Authenticate (or create a user account) with the Sidecar service using user's email address and password. This will retrieve the user access key/secret pair that will be used to submit sensor data to Sidecar. Use the <a class="el" href="class_simple_sidecar_client.xhtml#a16f32a877a5c97f429ff0b548465a76c">SimpleSidecarClient::authenticate</a> and <a class="el" href="class_simple_sidecar_client.xhtml#a001a437cf90b9da3c132f409231dfe43">SimpleSidecarClient::createUser</a> methods.</li>
+</ul>
+<h3><a class="anchor" id="iei"></a>
+Event API</h3>
+<ul>
+<li>Initialise the Sidecar library with the user access key and secret used for authentication/authorisation. Use the <a class="el" href="class_simple_sidecar_client.xhtml#a6460635f3bda30c0e2607840778ce911">SimpleSidecarClient::initUserKey</a> method. </li>
+<li>Initialise the Event API with the stream identifier, device UUID, and a default geographic location. Use the <a class="el" href="class_simple_sidecar_client.xhtml#a57814a206ef34093f779841f0c250587">SimpleSidecarClient::initEventAPI</a> method.</li>
+</ul>
+<h2><a class="anchor" id="ici"></a>
+Core API</h2>
 <ul>
 <li>Initialise the library with the type of networking used by the device. Use the <a class="el" href="namespaceqsense_1_1net.xhtml#ad07cee7867c08434996d81e40c8d9486">qsense::net::initNetworkType( qsense::net::NetworkType )</a> function to indicate the type of network being used. </li>
-<li>Initialise the UUID engine with a proper MAC address (<a class="el" href="classqsense_1_1_u_u_i_d.xhtml#a9767b1d6a0b1e95ede4f7adbe284d187">qsense::UUID::init</a>). Official Arduino ethernet shields come with a MAC address labelled on the board. If using WiFi, the Arduino WiFi API allows lookup of the current MAC address. A stable and unique MAC address is essential for ensuring that UUID values generated (generates time based values) are truly universally unique. </li>
-<li>Initialise the Event API with the stream identifier, device UUID, and a default geographic <a class="el" href="classqsense_1_1_location.xhtml">qsense::Location</a> (<a class="el" href="classqsense_1_1_event.xhtml#a09a873f2eba196ae081953410136a49f">qsense::Event::init</a>). </li>
-<li>Initialise the Sidecar library with the api key and secret used for authentication/authorisation (<a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a13773e8b8b30d0a1d00aa5912291864c">qsense::net::SidecarClient::init</a>).</li>
+<li>Initialise the UUID engine with a proper MAC address (<a class="el" href="classqsense_1_1_u_u_i_d.xhtml#a9767b1d6a0b1e95ede4f7adbe284d187">qsense::UUID::init</a>). Official Arduino ethernet shields come with a MAC address labelled on the board (as per Arduino documentation). If using WiFi, the Arduino WiFi API allows lookup of the current MAC address. A stable and unique MAC address is essential for ensuring that UUID values generated (generates time based values) are truly universally unique. </li>
+<li>Initialise the API with the application access key/secret pair. Use the <a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a02392957775e35f476a2901551aedd62">qsense::net::SidecarClient::initAPIKey</a> method. </li>
+<li>Authenticate (or create a user account) with the Sidecar service using user's email address and password. This will retrieve the user access key/secret pair that will be used to submit sensor data to Sidecar. Use the <a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#aaab5462b2f1b66c65f9b3272f92d4d76">qsense::net::SidecarClient::authenticate</a> or <a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a207215f50bccfef63249b743436d5b6a">qsense::net::SidecarClient::createUser</a> methods to authenticate or create and provision the user account. </li>
+<li>Initialise the Sidecar library with the user access key and secret used for authentication/authorisation (<a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#ae3bbc12110e4faf03fa49caf2b56e0a3">qsense::net::SidecarClient::initUserKey</a>). </li>
+<li>Initialise the Event API with the stream identifier, device UUID, and a default geographic <a class="el" href="classqsense_1_1_location.xhtml">qsense::Location</a> (<a class="el" href="classqsense_1_1_event.xhtml#a09a873f2eba196ae081953410136a49f">qsense::Event::init</a>).</li>
+</ul>
+<h1><a class="anchor" id="publish"></a>
+Publish Sensor Data</h1>
+<p>Once the Sidecar library has been properly initialised with the user access key and secret combination, sensor data may be published to Sidecar as events at any time.</p>
+<h2><a class="anchor" id="psai"></a>
+Simple Arduino API</h2>
+<ul>
+<li>Add readings to be published as one event using the <a class="el" href="class_simple_sidecar_client.xhtml#ab04bc09dbf1c36259edcb28f5a3d7b13">SimpleSidecarClient::addReading</a> method. </li>
+<li>Optionally add tags to the event using the <a class="el" href="class_simple_sidecar_client.xhtml#a62350e839bccc7d23c986d38d11ed874">SimpleSidecarClient::addTag</a> method. </li>
+<li>Publish the accumulated readings as an event to Sidecar. Use the <a class="el" href="class_simple_sidecar_client.xhtml#ac09167a37d178cfebc868bbc591101f6">SimpleSidecarClient::publish</a> method to publish the event.</li>
+</ul>
+<h2><a class="anchor" id="pci"></a>
+Core API</h2>
+<ul>
+<li>Create an instance of <a class="el" href="classqsense_1_1_event.xhtml">qsense::Event</a>. </li>
+<li>Create instances of <a class="el" href="classqsense_1_1_reading.xhtml">qsense::Reading</a> and assign it sensor data and any other relevant data that in combination constitute an event to be published to Sidecar. Use the <a class="el" href="classqsense_1_1_event.xhtml#a5418bd14d307fb37746835aaa0e8fbd0">qsense::Event::add( const qsense::Reading&amp; )</a> method. </li>
+<li>Optionally add tags to the event. Tags may be used when querying data stored in Sidecar. Use the <a class="el" href="classqsense_1_1_event.xhtml#a875dda00e226efcb70bd0f48011cd692">qsense::Event::add( const qsense::QString&amp; )</a>} method. </li>
+<li>Create an instance of the <a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">qsense::net::SidecarClient</a> and publish the event using <a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a6c17fd99c1db256b346e538c1b0d6999">qsense::net::SidecarClient::publish</a>.</li>
 </ul>
 <h1><a class="anchor" id="libraries"></a>
 Libraries</h1>
 <p>The only third-party library necessary is the Standard C++ Library.</p>
 <ul>
-<li><a href="https://github.com/maniacbug/StandardCplusplus">Standard C++ Template Unit </a></li>
+<li><a href="https://github.com/maniacbug/StandardCplusplus">Standard C++</a> </li>
+<li><a href="http://pocoproject.org/index.html">Poco</a> - needed for using on non-Arduino platforms (for network interactions). We have tested only on Mac OS X and Windows, however Poco runs on most platforms including iOS and Android. </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun May 24 2015 21:43:54 for QSense Sidecar Library by
+    <li class="footer">Generated on Fri Oct 23 2015 17:52:33 for QSense Sidecar Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

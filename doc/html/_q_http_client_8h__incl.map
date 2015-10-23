@@ -1,3 +1,6 @@
 <map id="/Users/rakesh/svn/customer/qsense/desktop/src/api/net/QHttpClient.h" name="/Users/rakesh/svn/customer/qsense/desktop/src/api/net/QHttpClient.h">
-<area shape="rect" id="node2" href="$_q_sense_8h.xhtml" title="QSense.h" alt="" coords="14,109,95,136"/>
+<area shape="rect" id="node2" href="$_auto_ptr_8h.xhtml" title="AutoPtr.h" alt="" coords="5,109,83,136"/>
+<area shape="rect" id="node7" href="$_ref_counted_object_8h.xhtml" title="RefCountedObject.h" alt="" coords="107,109,250,136"/>
+<area shape="rect" id="node8" href="$_http_request_8h.xhtml" title="net/HttpRequest.h" alt="" coords="274,109,403,136"/>
+<area shape="rect" id="node3" href="$_q_sense_8h.xhtml" title="QSense.h" alt="" coords="138,184,219,211"/>
 </map>

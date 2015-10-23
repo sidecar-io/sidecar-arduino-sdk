@@ -1,31 +1,42 @@
+/*
+Copyright 2015 Sidecar 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 #include <SPI.h>
 #include <Ethernet.h>
 #include <WiFi.h>
 
 #include <StandardCplusplus.h>
-
-#include <QHttpClient.h>
-#include <DateTime.h>
-#include <SidecarClient.h>
-#include <UUID.h>
+#include <SimpleSidecarClient.h>
+#include <serstream>
 
 namespace std
 {
   ohserialstream cout(Serial);
 }
 
-using qsense::QString;
+//using qsense::QString;
 
 const int ledPower = 12;
 
 // Sidecar API key/secret pair for creating user account(s).
 // Will be read in from console
-QString apiKey;
-QString apiSecret;
+String apiKey;
+String apiSecret;
 
 // Sidecar user account to create to retrieve access keys for events API
-QString username;
-QString password;
+String username;
+String password;
 
 
 // A proper unique mac address is critical to having a stable UUID generated
@@ -36,13 +47,15 @@ byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 // Set the static IP address to use if the DHCP fails to assign
 IPAddress ip( 10, 0, 1, 200 );
 
+SimpleSidecarClient client;
 
 void initUUID()
 {
   // Initialise UUID engine
   // If using WiFi, the WiFi api provides a way to look up current MAC
   // address.  That would be better to get proper UUID values.
-  qsense::UUID::init( mac );
+  //qsense::UUID::init( mac );
+  SimpleSidecarClient::initUUID();
 }
 
 
@@ -50,17 +63,19 @@ void initSidecar()
 {
   Serial.setTimeout( 30000 );
 
-  std::cout << F( "Please enter your API key:" ) << std::endl;
-  apiKey = Serial.readStringUntil( '\n' ).c_str();
+  Serial.println( F( "Please enter your API key:" ) );
+  apiKey = Serial.readStringUntil( '\n' );
 
-  std::cout << F( "Please enter your API secret:" ) << std::endl;
+  Serial.println( F( "Please enter your API secret:" ) );
   apiSecret = Serial.readStringUntil( '\n' ).c_str();
 
-  std::cout << F( "Initialising Sidecar API with API key: " ) <<
-    apiKey << F( " and secret: " ) << apiSecret << std::endl;
+  Serial.print( F( "Initialising Sidecar API with API key: " ) );
+  Serial.print( apiKey );
+  Serial.print( F( " and secret: " ) );
+  Serial.println( apiSecret );
 
   // Initialise SidecarClient API
-  qsense::net::SidecarClient::initAPIKey( apiKey, apiSecret );
+  SimpleSidecarClient::initAPIKey( apiKey, apiSecret );
   Serial.setTimeout( 1000 );
 }
 
@@ -70,16 +85,16 @@ void initEthernet()
 {
   if ( Ethernet.begin( mac ) == 0 )
   {
-    std::cout << F( "Failed to configure Ethernet using DHCP" ) << std::endl;
+    Serial.println( F( "Failed to configure Ethernet using DHCP" ) );
     Ethernet.begin( mac, ip );
   }
 
   // give the Ethernet shield a second to initialize:
-  std::cout << F( "Connecting to network..." ) << std::endl;
+  Serial.println( F( "Connecting to network..." ) );
   delay( 1000 );
 
   // Initialise network API to use Ethernet
-  qsense::net::initNetworkType( qsense::net::Ethernet );
+  SimpleSidecarClient::initNetworkType( SimpleSidecarClient::Ethernet );
 }
 
 
@@ -89,11 +104,11 @@ void initEthernetStatic()
   Ethernet.begin( mac, ip, dnsServer );
 
   // give the Ethernet shield a second to initialize:
-  std::cout << F( "Connecting to network..." ) << std::endl;
+  Serial.println( F( "Connecting to network..." ) );
   delay( 1000 );
 
   // Initialise network API to use Ethernet
-  qsense::net::initNetworkType( qsense::net::Ethernet );
+  SimpleSidecarClient::initNetworkType( SimpleSidecarClient::Ethernet );
 }
 
 
@@ -103,37 +118,40 @@ void initWiFi()
   // Perform normal WiFi setup
 
   // Initialise network API to use WiFi
-  qsense::net::initNetworkType( qsense::net::WiFi );
+  SimpleSidecarClient::initNetworkType( SimpleSidecarClient::WiFi );
 }
 
 
 // Create a test user for using the Event API
 void createUser()
 {
-  using qsense::net::SidecarClient;
-
   Serial.setTimeout( 30000 );
 
-  std::cout << "Enter email address you wish to use as username:" << std::endl;
-  username = Serial.readStringUntil( '\n' ).c_str();
+  Serial.println( F( "Enter email address you wish to use as username:" ) );
+  username = Serial.readStringUntil( '\n' );
 
-  std::cout << "Enter password you wish to use with account (8-20 chars):" << std::endl;
-  password = Serial.readStringUntil( '\n' ).c_str();
+  Serial.println( F( "Enter password you wish to use with account (8-20 chars):" ) );
+  password = Serial.readStringUntil( '\n' );
 
-  std::cout << "Accessing or creating account " << username << "/" << password << std::endl;
+  Serial.print( F( "Accessing or creating account " ) );
+  Serial.print( username );
+  Serial.print( F( "/" ) );
+  Serial.println( password );
 
-  SidecarClient client;
-
-  const SidecarClient::UserResponse& response = client.createUser( username, password );
+  const SimpleSidecarClient::UserResponse& response = client.createUser( username, password );
 
   if ( response.responseCode == 200 )
   {
-    std::cout << "Created user with access key: " << response.keyId << " and secret: " << response.secret << std::endl;
-    std::cout << "Please use this key/secret combination to initialise the Sidecar API using qsense::net::SidecarClient::initUserKey method." << std::endl;
+    Serial.print( F( "Created user with access key: " ) );
+    Serial.print( response.keyId );
+    Serial.print( F( " and secret: " ) );
+    Serial.println( response.secret );
+    Serial.println( F(  "Please use this key/secret combination to initialise the Sidecar API using qsense::net::SidecarClient::initUserKey method." ) );
   }
   else
   {
-    std::cout << "Error creating user.  Response code: " << response.responseCode << std::endl;
+    Serial.print( F( "Error creating user.  Response code: " ) );
+    Serial.println( response.responseCode );
   }
 
   Serial.setTimeout( 1000 );
@@ -141,33 +159,36 @@ void createUser()
 
 
 // Create or retrieve test user for using the Event API
-void createOrRetrieveUser()
+void createOrRetrieveAccessKeys()
 {
-  using qsense::net::SidecarClient;
-
   Serial.setTimeout( 30000 );
 
-  std::cout << "Enter username (email address).  New account will be created if non-existing." << std::endl;
-  std::cout << "Username: " << std::endl;
-  username = Serial.readStringUntil( '\n' ).c_str();
+  Serial.println( F( "Enter username (email address).  New access keys will be created if non-existing." ) );
+  Serial.println( F( "Username: " ) );
+  username = Serial.readStringUntil( '\n' );
 
-  std::cout << "Enter password for your account (8-20 chars):" << std::endl;
-  password = Serial.readStringUntil( '\n' ).c_str();
+  Serial.println( F( "Enter password for your account (8-20 chars):" ) );
+  password = Serial.readStringUntil( '\n' );
 
-  std::cout << "Accessing or creating account " << username << "/" << password << std::endl;
+  Serial.print( F( "Accessing or creating account " ) );
+  Serial.print( username );
+  Serial.print( F( "/" ) );
+  Serial.println( password );
 
-  SidecarClient client;
-
-  const SidecarClient::UserResponse& response = client.createOrAuthenticateUser( username, password );
+  const SimpleSidecarClient::UserResponse& response = client.createOrRetrieveAccessKeys( username, password );
 
   if ( response.responseCode == 200 )
   {
-    std::cout << "Created user with access key: " << response.keyId << " and secret: " << response.secret << std::endl;
-    std::cout << "Please use this key/secret combination to initialise the Sidecar API using qsense::net::SidecarClient::initUserKey method." << std::endl;
+    Serial.print( F( "Created user with access key: " ) );
+    Serial.print( response.keyId );
+    Serial.print( F( " and secret: " ) );
+    Serial.println( response.secret );
+    Serial.println( F( "Please use this key/secret combination to initialise the Sidecar API using qsense::net::SidecarClient::initUserKey method." ) );
   }
   else
   {
-    std::cout << "Error creating user.  Response code: " << response.responseCode << std::endl;
+    Serial.print( F( "Error creating user.  Response code: " ) );
+    Serial.println( response.responseCode );
   }
 
   Serial.setTimeout( 1000 );
@@ -177,18 +198,19 @@ void createOrRetrieveUser()
 // Just display the user access keys
 void displayKeys()
 {
-  using qsense::net::SidecarClient;
-  SidecarClient client;
-
-  const SidecarClient::UserResponse& response = client.authenticate( username, password );
+  const SimpleSidecarClient::UserResponse& response = client.authenticate( username, password );
 
   if ( response.responseCode == 200 )
   {
-    std::cout << "Access key: " << response.keyId << " and secret: " << response.secret << std::endl;
+    Serial.print( F( "Access key: " ) );
+    Serial.print( response.keyId );
+    Serial.print( F( " and secret: " ) );
+    Serial.println( response.secret );
   }
   else
   {
-    std::cout << "Error authenticating user.  Response code: " << response.responseCode << std::endl;
+    Serial.print( F( "Error authenticating user.  Response code: " ) );
+    Serial.println( response.responseCode );
   }
 }
 
@@ -219,10 +241,12 @@ void setup()
 
 void loop()
 {
-  std::cout << F( "Current time: " ) << qsense::net::DateTime::singleton().currentTime() << std::endl;
+  Serial.print( F( "Current time: " ) );
+  Serial.println( client.currentTime() );
   
   displayKeys();
-  std::cout << F( "Free SRAM: " ) << freeRam() << std::endl;
+  Serial.print( F( "Free SRAM: " ) );
+  Serial.println( freeRam() );
   delay( 60000 );
 }
 

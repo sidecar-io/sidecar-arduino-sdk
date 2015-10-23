@@ -73,6 +73,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.xhtml"><span>Class&#160;List</span></a></li>
       <li><a href="classes.xhtml"><span>Class&#160;Index</span></a></li>
+      <li><a href="inherits.xhtml"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.xhtml"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -113,14 +114,19 @@ $(document).ready(function(){initNavTree('classqsense_1_1net_1_1_sidecar_client.
 
 <p>This is the complete list of members for <a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">qsense::net::SidecarClient</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a13773e8b8b30d0a1d00aa5912291864c">init</a>(const qsense::QString &amp;apiKey, const qsense::QString &amp;apiSecret)</td><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">qsense::net::SidecarClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a3626588a673d1b53a8c916851ddb890a">publish</a>(const qsense::Event &amp;event) const </td><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">qsense::net::SidecarClient</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#aaab5462b2f1b66c65f9b3272f92d4d76">authenticate</a>(const QString &amp;username, const QString &amp;password)</td><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">qsense::net::SidecarClient</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#afe42bbe2edb851ec0caa44b9e8b32878">createOrRetrieveAccessKeys</a>(const QString &amp;username, const QString &amp;password)</td><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">qsense::net::SidecarClient</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a207215f50bccfef63249b743436d5b6a">createUser</a>(const QString &amp;username, const QString &amp;password)</td><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">qsense::net::SidecarClient</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a214ad1d4309a236d89ce206a9fdb0575">deleteUser</a>(const QString &amp;username, const QString &amp;password)</td><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">qsense::net::SidecarClient</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a02392957775e35f476a2901551aedd62">initAPIKey</a>(const QString &amp;apiKey, const QString &amp;apiSecret)</td><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">qsense::net::SidecarClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#ae3bbc12110e4faf03fa49caf2b56e0a3">initUserKey</a>(const QString &amp;userKey, const QString &amp;userSecret)</td><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">qsense::net::SidecarClient</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a6c17fd99c1db256b346e538c1b0d6999">publish</a>(const Event &amp;event) const </td><td class="entry"><a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml">qsense::net::SidecarClient</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun May 24 2015 21:43:54 for QSense Sidecar Library by
+    <li class="footer">Generated on Fri Oct 23 2015 17:52:33 for QSense Sidecar Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

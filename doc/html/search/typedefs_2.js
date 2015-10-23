@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['qstring',['QString',['../namespaceqsense.xhtml#a855c750fcac449e35e151d31e1763280',1,'qsense']]]
+  ['map',['Map',['../classqsense_1_1net_1_1_http_request.xhtml#aa6b99db7f380c02c5066362cbd9208a1',1,'qsense::net::HttpRequest']]]
 ];

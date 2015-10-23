@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['byteorder',['ByteOrder',['../classqsense_1_1_byte_order.xhtml',1,'qsense']]]
+  ['autoptr',['AutoPtr',['../classqsense_1_1_auto_ptr.xhtml',1,'qsense']]]
 ];
