@@ -6,6 +6,7 @@ var class_simple_sidecar_client =
       [ "WiFi", "class_simple_sidecar_client.xhtml#ae727e1760c4ff910d3c1ea307a5f33caa73c1ae250254570a57782458ce9d777c", null ]
     ] ],
     [ "SimpleSidecarClient", "class_simple_sidecar_client.xhtml#a4165ce06371cb8ab7a6465b081a0b389", null ],
+    [ "addKeyTag", "class_simple_sidecar_client.xhtml#a17bbe3c63489ad7cb33736ce7ae4cc8e", null ],
     [ "addReading", "class_simple_sidecar_client.xhtml#ab04bc09dbf1c36259edcb28f5a3d7b13", null ],
     [ "addTag", "class_simple_sidecar_client.xhtml#a62350e839bccc7d23c986d38d11ed874", null ],
     [ "authenticate", "class_simple_sidecar_client.xhtml#a16f32a877a5c97f429ff0b548465a76c", null ],

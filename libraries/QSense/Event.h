@@ -1,3 +1,17 @@
+/*
+Copyright 2015 Sidecar
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 #ifndef QSENSE_EVENT_H
 #define QSENSE_EVENT_H
 
@@ -6,11 +20,13 @@
 #include "Location.h"
 #include "Reading.h"
 #include "../StandardCplusplus/vector"
+#include "../StandardCplusplus/map"
 #else
 #include <QSense.h>
 #include <Location.h>
 #include <Reading.h>
 #include <vector>
+#include <map>
 #endif
 
 namespace qsense
@@ -24,10 +40,13 @@ namespace qsense
   {
   public:
     /// The vector of readings encapsulated in this event.
-    typedef std::vector<qsense::Reading> Readings;
+    typedef std::vector<Reading> Readings;
 
     /// The vector of tags associated with this event.
-    typedef std::vector<qsense::QString> Tags;
+    typedef std::vector<QString> Tags;
+
+    /// The map of key tags associated with this event.
+    typedef std::map<QString,Tags> KeyTags;
 
     /// Iterator for the readings encapsulated in this event.
     typedef Readings::const_iterator ReadingsIterator;
@@ -35,30 +54,40 @@ namespace qsense
     /// Iterator for the tags associated with this event.
     typedef Tags::const_iterator TagsIterator;
 
+    /// Iterator for the key=tags associated with this event.
+    typedef KeyTags::const_iterator KeyTagsIterator;
+
     /// Default constructor.  Uses default location set through {@link #init}
     Event();
 
     /// Create a new event with the specified location
-    Event( const qsense::Location& location );
+    Event( const Location& location );
 
     /// Destructor.  No actions required
     ~Event() {}
 
     /// Add the specified reading to this event.
-    Event& add( const qsense::Reading& reading );
+    Event& add( const Reading& reading );
 
     /// Add the specified tag to this event.
-    Event& add( const qsense::QString& tag );
+    /// \b NOTE: Tags should be single words without spaces.
+    Event& add( const QString& tag );
+
+    /// Add the specified key-tag to this event.  To specify multiple
+    /// tags for the same key, call this method with the same key.
+    /// \b NOTE: Tags should be single words without spaces.
+    Event& add( const QString& key, const QString& tag );
 
     /// Operator for adding a reading to the event
-    Event& operator += ( const qsense::Reading& reading )
+    Event& operator += ( const Reading& reading )
     {
       add( reading );
       return *this;
     }
 
-    /// Operator for adding a tag to the event
-    Event& operator += ( const qsense::QString& tag )
+    /// Operator for adding a tag to the event.
+    /// \b NOTE: Tags should be single words without spaces.
+    Event& operator += ( const QString& tag )
     {
       add( tag );
       return *this;
@@ -69,6 +98,9 @@ namespace qsense
 
     /// Return the number of tags associated with this event.
     std::size_t numberOfTags() const { return tags.size(); }
+
+    /// Return the number of key-tags associated with this event.
+    std::size_t numberOfKeyTags() const { return keyTags.size(); }
 
     /// Return a constant iterator to the beginning of the readings vector
     ReadingsIterator beginReadings() const { return readings.begin(); }
@@ -81,6 +113,12 @@ namespace qsense
 
     /// The end of the tags vector to check in loops.
     TagsIterator endTags() const { return tags.end(); }
+
+    /// Return a constant iterator to the beginning of the key-tags vector
+    KeyTagsIterator beginKeyTags() const { return keyTags.begin(); }
+
+    /// The end of the key-tags map to check in loops.
+    KeyTagsIterator endKeyTags() const { return keyTags.end(); }
 
     /**
      * @brief operator [] Retrieve the reading at specified index.
@@ -113,6 +151,7 @@ namespace qsense
   private:
     Readings readings;
     Tags tags;
+    KeyTags keyTags;
     Location location;
   };
 

@@ -1,5 +1,12 @@
 var NAVTREEINDEX1 =
 {
+"functions_func.xhtml":[7,3,1,0],
+"functions_func_b.xhtml":[7,3,1,1],
+"functions_func_c.xhtml":[7,3,1,2],
+"functions_func_d.xhtml":[7,3,1,3],
+"functions_func_e.xhtml":[7,3,1,4],
+"functions_func_f.xhtml":[7,3,1,5],
+"functions_func_g.xhtml":[7,3,1,6],
 "functions_func_h.xhtml":[7,3,1,7],
 "functions_func_i.xhtml":[7,3,1,8],
 "functions_func_l.xhtml":[7,3,1,9],
@@ -60,8 +67,8 @@ var NAVTREEINDEX1 =
 "namespaceqsense_1_1hash.xhtml":[7,0,0,0],
 "namespaceqsense_1_1hash.xhtml":[6,0,0,0],
 "namespaceqsense_1_1hash_1_1base64.xhtml":[6,0,0,0,0],
-"namespaceqsense_1_1net.xhtml":[7,0,0,1],
 "namespaceqsense_1_1net.xhtml":[6,0,0,1],
+"namespaceqsense_1_1net.xhtml":[7,0,0,1],
 "namespaces.xhtml":[6,0],
 "pages.xhtml":[],
 "struct_simple_sidecar_client_1_1_user_response.xhtml":[7,0,1,0],

@@ -15,7 +15,7 @@ var hierarchy =
     [ "qsense::hash::Sha1", "classqsense_1_1hash_1_1_sha1.xhtml", null ],
     [ "qsense::net::SidecarClient", "classqsense_1_1net_1_1_sidecar_client.xhtml", null ],
     [ "SimpleSidecarClient", "class_simple_sidecar_client.xhtml", null ],
-    [ "SimpleSidecarClient::UserResponse", "struct_simple_sidecar_client_1_1_user_response.xhtml", null ],
     [ "qsense::net::SidecarClient::UserResponse", "structqsense_1_1net_1_1_sidecar_client_1_1_user_response.xhtml", null ],
+    [ "SimpleSidecarClient::UserResponse", "struct_simple_sidecar_client_1_1_user_response.xhtml", null ],
     [ "qsense::UUID", "classqsense_1_1_u_u_i_d.xhtml", null ]
 ];

@@ -1,3 +1,17 @@
+/*
+Copyright 2015 Sidecar
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 #ifndef QSENSE_NET_SIDECARCLIENT_H
 #define QSENSE_NET_SIDECARCLIENT_H
 
@@ -74,6 +88,16 @@ namespace qsense
        */
       UserResponse authenticate( const QString& username, const QString& password );
 
+      /**
+       * @brief deleteUser Deprovision a user from the system.  Removes
+       * the user account, access key/secret and devices associated with
+       * the user.
+       *
+       * @param username The username of the user account
+       * @param password The password for the user account.
+       * @return The HTTP response code returned by Sidecar.  Response
+       *   code \c 204 indicates success.
+       */
       int16_t deleteUser( const QString& username, const QString& password );
 
       /// Publish the specified event to the Sidecar Event API

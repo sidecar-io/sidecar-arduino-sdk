@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['add',['add',['../classqsense_1_1_event.xhtml#a5418bd14d307fb37746835aaa0e8fbd0',1,'qsense::Event::add(const qsense::Reading &amp;reading)'],['../classqsense_1_1_event.xhtml#a875dda00e226efcb70bd0f48011cd692',1,'qsense::Event::add(const qsense::QString &amp;tag)']]],
+  ['add',['add',['../classqsense_1_1_event.xhtml#a67e3017d2fcbf29790ee2681e04c7e7d',1,'qsense::Event::add(const Reading &amp;reading)'],['../classqsense_1_1_event.xhtml#a297d4d827dbef8972977a8ed0d6e9339',1,'qsense::Event::add(const QString &amp;tag)'],['../classqsense_1_1_event.xhtml#a48302778f79a49d23cd8c664dcf46f18',1,'qsense::Event::add(const QString &amp;key, const QString &amp;tag)']]],
+  ['addkeytag',['addKeyTag',['../class_simple_sidecar_client.xhtml#a17bbe3c63489ad7cb33736ce7ae4cc8e',1,'SimpleSidecarClient']]],
   ['addreading',['addReading',['../class_simple_sidecar_client.xhtml#ab04bc09dbf1c36259edcb28f5a3d7b13',1,'SimpleSidecarClient']]],
   ['addtag',['addTag',['../class_simple_sidecar_client.xhtml#a62350e839bccc7d23c986d38d11ed874',1,'SimpleSidecarClient']]],
   ['appendhex',['appendHex',['../classqsense_1_1_u_u_i_d.xhtml#af80991a675b3b4250777f695f5b1184a',1,'qsense::UUID::appendHex(QString &amp;str, uint8_t n)'],['../classqsense_1_1_u_u_i_d.xhtml#a550386a30c1ffa5c177a04168c5c3f90',1,'qsense::UUID::appendHex(QString &amp;str, uint16_t n)'],['../classqsense_1_1_u_u_i_d.xhtml#a2bb117d8aa2fc57e416646c9ea265af9',1,'qsense::UUID::appendHex(QString &amp;str, uint32_t n)']]],

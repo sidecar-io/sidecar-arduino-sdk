@@ -159,6 +159,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a62350e839bccc7d23c986d38d11ed874"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simple_sidecar_client.xhtml#a62350e839bccc7d23c986d38d11ed874">addTag</a> (const String &amp;value)</td></tr>
 <tr class="memdesc:a62350e839bccc7d23c986d38d11ed874"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add optional tag values to help analyse the event after publishing to Sidecar.  <a href="#a62350e839bccc7d23c986d38d11ed874">More...</a><br /></td></tr>
 <tr class="separator:a62350e839bccc7d23c986d38d11ed874"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17bbe3c63489ad7cb33736ce7ae4cc8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simple_sidecar_client.xhtml#a17bbe3c63489ad7cb33736ce7ae4cc8e">addKeyTag</a> (const String &amp;key, const String &amp;tag)</td></tr>
+<tr class="memdesc:a17bbe3c63489ad7cb33736ce7ae4cc8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add option key-tag values to help identify/analyse the event after publishing to Sidecar. Use the same key to assign multiple values to a key.  <a href="#a17bbe3c63489ad7cb33736ce7ae4cc8e">More...</a><br /></td></tr>
+<tr class="separator:a17bbe3c63489ad7cb33736ce7ae4cc8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac09167a37d178cfebc868bbc591101f6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simple_sidecar_client.xhtml#ac09167a37d178cfebc868bbc591101f6">publish</a> ()</td></tr>
 <tr class="memdesc:ac09167a37d178cfebc868bbc591101f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">publish Publish the built up event to the Sidecar Event API. Invoke <a class="el" href="class_simple_sidecar_client.xhtml#ab04bc09dbf1c36259edcb28f5a3d7b13">addReading</a> with the individual readings that are part of the current event, and <a class="el" href="class_simple_sidecar_client.xhtml#a62350e839bccc7d23c986d38d11ed874">addTag</a> as needed to build up a complete event before publishing to Sidecar.  <a href="#ac09167a37d178cfebc868bbc591101f6">More...</a><br /></td></tr>
 <tr class="separator:ac09167a37d178cfebc868bbc591101f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -240,6 +243,42 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a17bbe3c63489ad7cb33736ce7ae4cc8e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SimpleSidecarClient::addKeyTag </td>
+          <td>(</td>
+          <td class="paramtype">const String &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const String &amp;&#160;</td>
+          <td class="paramname"><em>tag</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add option key-tag values to help identify/analyse the event after publishing to Sidecar. Use the same key to assign multiple values to a key. </p>
+<p><b>NOTE:</b> Tags should be single words without spaces.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>The key for the key-tag pair. </td></tr>
+    <tr><td class="paramname">tag</td><td>A tag value to associate with the key. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ab04bc09dbf1c36259edcb28f5a3d7b13"></a>
 <div class="memitem">
 <div class="memproto">
@@ -290,6 +329,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Add optional tag values to help analyse the event after publishing to Sidecar. </p>
+<p><b>NOTE:</b> Tags should be single words without spaces.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">value</td><td>A tag value. </td></tr>
@@ -729,7 +769,7 @@ Static Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_simple_sidecar_client.xhtml">SimpleSidecarClient</a></li>
-    <li class="footer">Generated on Fri Oct 23 2015 17:52:33 for QSense Sidecar Library by
+    <li class="footer">Generated on Fri Oct 23 2015 21:44:22 for QSense Sidecar Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

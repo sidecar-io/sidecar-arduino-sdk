@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['tags',['Tags',['../classqsense_1_1_event.xhtml#a52ab547b3358e480feef6a151829e8fb',1,'qsense::Event']]],
-  ['tagsiterator',['TagsIterator',['../classqsense_1_1_event.xhtml#af55afa6d22075e772e850177b7f15c1e',1,'qsense::Event']]]
+  ['readings',['Readings',['../classqsense_1_1_event.xhtml#a01bef3b33061226d592f1278848e7ba2',1,'qsense::Event']]],
+  ['readingsiterator',['ReadingsIterator',['../classqsense_1_1_event.xhtml#a67cfb616791c8096201301c3b7b467e7',1,'qsense::Event']]]
 ];

@@ -1,3 +1,17 @@
+/*
+Copyright 2015 Sidecar
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 #include "SidecarClient.h"
 #include "DateTime.h"
 #include "QHttpClient.h"
@@ -72,14 +86,19 @@ void SidecarClient::initUserKey( const QString& userKey, const QString& userSecr
 const SidecarClient::UserResponse SidecarClient::UserResponse::create(
   uint16_t response, const qsense::QString& body )
 {
-  std::size_t start = body.find_first_of( "keyId\":\"" );
+  std::size_t start = body.find( "keyId\":\"" );
   std::size_t end = body.find( "\",\"" );
   const QString& keyId = body.substr( start + 8, end - ( start + 8 ) );
 
-  start = body.find_first_of( "secret\":\"" );
+  start = body.find( "secret\":\"" );
   end = body.find( '"', start + 9 );
   const QString& secret = body.substr( start + 9, end - ( start + 9 ) );
+
+#if defined( ARDUINO )
   return UserResponse( response, keyId, secret );
+#else
+  return std::move( UserResponse( response, keyId, secret ) );
+#endif
 }
 
 
@@ -101,8 +120,6 @@ SidecarClient::UserResponse SidecarClient::createUser(
   {
 #if defined( ARDUINO )
     std::cout << F( "Connected to " ) << data::server << std::endl;
-#else
-    std::cout << "Connected to " << data::server << std::endl;
 #endif
 
     const QString& json = data::credentials( username, password );
@@ -134,20 +151,29 @@ SidecarClient::UserResponse SidecarClient::createUser(
     responseCode = client->post( request );
 #if defined( ARDUINO )
     std::cout << F( "User Provision API returned HTTP response code: " ) << responseCode << std::endl;
-#else
-    std::cout << "User Provision API returned HTTP response code: " << responseCode << std::endl;
 #endif
 
     if ( responseCode == 200 )
     {
       const QString& body = client->readBody();
+#if defined( ARDUINO )
       return UserResponse::create( responseCode, body );
+#else
+      return std::move( UserResponse::create( responseCode, body ) );
+#endif
     }
     else
     {
+#if ! defined( ARDUINO )
+      std::cout << "User Provision API returned HTTP response code: " << responseCode << std::endl;
+#endif
       while ( client->connected() )
       {
+#if defined( ARDUINO )
+        std::cout << F( "  [resp] " ) << client->readLine() << std::endl;
+#else
         std::cout << "  [resp] " << client->readLine() << std::endl;
+#endif
       }
     }
   }
@@ -174,8 +200,6 @@ SidecarClient::UserResponse SidecarClient::createOrRetrieveAccessKeys(
   {
 #if defined( ARDUINO )
     std::cout << F( "Connected to " ) << data::server << std::endl;
-#else
-    std::cout << "Connected to " << data::server << std::endl;
 #endif
 
     const QString& json = data::credentials( username, password );
@@ -206,20 +230,29 @@ SidecarClient::UserResponse SidecarClient::createOrRetrieveAccessKeys(
     responseCode = client->post( request );
 #if defined( ARDUINO )
     std::cout << F( "Create or Retrieve API returned HTTP response code: " ) << responseCode << std::endl;
-#else
-    std::cout << "Create or Retrieve API returned HTTP response code: " << responseCode << std::endl;
 #endif
 
     if ( responseCode == 200 )
     {
       const QString& body = client->readBody();
+#if defined ( ARDUINO )
       return UserResponse::create( responseCode, body );
+#else
+      return std::move( UserResponse::create( responseCode, body ) );
+#endif
     }
     else
     {
+#if ! defined( ARDUINO )
+    std::cout << "Create or Retrieve API returned HTTP response code: " << responseCode << std::endl;
+#endif
       while ( client->connected() )
       {
+#if defined( ARDUINO )
+        std::cout << F( "  [resp] " ) << client->readLine() << std::endl;
+#else
         std::cout << "  [resp] " << client->readLine() << std::endl;
+#endif
       }
     }
   }
@@ -246,8 +279,6 @@ SidecarClient::UserResponse SidecarClient::authenticate(
   {
 #if defined( ARDUINO )
     std::cout << F( "Connected to " ) << data::server << std::endl;
-#else
-    std::cout << "Connected to " << data::server << std::endl;
 #endif
 
     const QString& json = data::credentials( username, password );
@@ -277,21 +308,29 @@ SidecarClient::UserResponse SidecarClient::authenticate(
     responseCode = client->post( request );
 #if defined( ARDUINO )
     std::cout << F( "User Provision API returned HTTP response code: " ) << responseCode << std::endl;
-#else
-    std::cout << "User authentication API returned HTTP response code: " << responseCode << std::endl;
 #endif
 
     if ( responseCode == 200 )
     {
       const QString& body = client->readBody();
+#if defined( ARDUINO )
       return UserResponse::create( responseCode, body );
+#else
+      return std::move( UserResponse::create( responseCode, body ) );
+#endif
     }
     else
     {
+#if ! defined( ARDUINO )
+    std::cout << "User Provision API returned HTTP response code: " << responseCode << std::endl;
+#endif
       while ( client->connected() )
       {
-        const QString& line = client->readLine();
-        std::cout << "  [resp] " << line << std::endl;
+#if defined( ARDUINO )
+        std::cout << F( "  [resp] " ) << client->readLine() << std::endl;
+#else
+        std::cout << "  [resp] " << client->readLine() << std::endl;
+#endif
       }
     }
   }
@@ -317,8 +356,6 @@ int16_t SidecarClient::deleteUser( const QString& username, const QString& passw
   {
 #if defined( ARDUINO )
     std::cout << F( "Connected to " ) << data::server << std::endl;
-#else
-    std::cout << "Connected to " << data::server << std::endl;
 #endif
 
     const QString& json = data::credentials( username, password );
@@ -348,8 +385,6 @@ int16_t SidecarClient::deleteUser( const QString& username, const QString& passw
     responseCode = client->remove( request );
 #if defined( ARDUINO )
     std::cout << F( "User Provision API returned HTTP response code: " ) << responseCode << std::endl;
-#else
-    std::cout << "User Provision API returned HTTP response code: " << responseCode << std::endl;
 #endif
   }
 
@@ -374,8 +409,6 @@ bool SidecarClient::publish( const qsense::Event& event ) const
   {
 #if defined( ARDUINO )
     std::cout << F( "Connected to " ) << data::server << std::endl;
-#else
-    std::cout << "Connected to " << data::server << std::endl;
 #endif
 
     const QString& eventJson = event.toString();
@@ -405,11 +438,23 @@ bool SidecarClient::publish( const qsense::Event& event ) const
     uint16_t responseCode = client->post( request );
 #if defined( ARDUINO )
     std::cout << F( "Event API returned HTTP response code: " ) << responseCode << std::endl;
-#else
-    std::cout << "Event API returned HTTP response code: " << responseCode << std::endl;
 #endif
 
     if ( responseCode == 202 ) flag = true;
+    else
+    {
+#if ! defined( ARDUINO )
+    std::cout << "User Provision API returned HTTP response code: " << responseCode << std::endl;
+#endif
+      while ( client->connected() )
+      {
+#if defined( ARDUINO )
+        std::cout << F( "  [resp] " ) << client->readLine() << std::endl;
+#else
+        std::cout << "  [resp] " << client->readLine() << std::endl;
+#endif
+      }
+    }
   }
   else
   {
