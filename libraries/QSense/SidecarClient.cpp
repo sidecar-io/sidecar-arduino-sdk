@@ -444,7 +444,7 @@ bool SidecarClient::publish( const qsense::Event& event ) const
     else
     {
 #if ! defined( ARDUINO )
-    std::cout << "User Provision API returned HTTP response code: " << responseCode << std::endl;
+    std::cout << "Event API returned HTTP response code: " << responseCode << std::endl;
 #endif
       while ( client->connected() )
       {

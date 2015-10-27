@@ -148,7 +148,7 @@ Provisioning API</h3>
 Event API</h3>
 <ul>
 <li>Initialise the Sidecar library with the user access key and secret used for authentication/authorisation. Use the <a class="el" href="class_simple_sidecar_client.xhtml#a6460635f3bda30c0e2607840778ce911">SimpleSidecarClient::initUserKey</a> method. </li>
-<li>Initialise the Event API with the stream identifier, device UUID, and a default geographic location. Use the <a class="el" href="class_simple_sidecar_client.xhtml#a57814a206ef34093f779841f0c250587">SimpleSidecarClient::initEventAPI</a> method.</li>
+<li>Initialise the Event API with the stream identifier, device UUID, and a default geographic location. Create an instance of the <a class="el" href="struct_simple_sidecar_client_1_1_event_a_p_i_data.xhtml">SimpleSidecarClient::EventAPIData</a> structure, populate the fields and use the <a class="el" href="class_simple_sidecar_client.xhtml#a1a3587a81efecdf1addd796103b9b2a9">SimpleSidecarClient::initEventAPI</a> method.</li>
 </ul>
 <h2><a class="anchor" id="ici"></a>
 Core API</h2>
@@ -158,7 +158,7 @@ Core API</h2>
 <li>Initialise the API with the application access key/secret pair. Use the <a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a02392957775e35f476a2901551aedd62">qsense::net::SidecarClient::initAPIKey</a> method. </li>
 <li>Authenticate (or create a user account) with the Sidecar service using user's email address and password. This will retrieve the user access key/secret pair that will be used to submit sensor data to Sidecar. Use the <a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#aaab5462b2f1b66c65f9b3272f92d4d76">qsense::net::SidecarClient::authenticate</a> or <a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#a207215f50bccfef63249b743436d5b6a">qsense::net::SidecarClient::createUser</a> methods to authenticate or create and provision the user account. </li>
 <li>Initialise the Sidecar library with the user access key and secret used for authentication/authorisation (<a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#ae3bbc12110e4faf03fa49caf2b56e0a3">qsense::net::SidecarClient::initUserKey</a>). </li>
-<li>Initialise the Event API with the stream identifier, device UUID, and a default geographic <a class="el" href="classqsense_1_1_location.xhtml">qsense::Location</a> (<a class="el" href="classqsense_1_1_event.xhtml#a09a873f2eba196ae081953410136a49f">qsense::Event::init</a>).</li>
+<li>Initialise the Event API with the stream identifier, device UUID, and a default geographic <a class="el" href="classqsense_1_1_location.xhtml">qsense::Location</a> (<a class="el" href="classqsense_1_1_event.xhtml#a0905b200328ec3f3fc7411c8247b6f44">qsense::Event::init</a>).</li>
 </ul>
 <h1><a class="anchor" id="publish"></a>
 Publish Sensor Data</h1>
@@ -190,7 +190,7 @@ Libraries</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Oct 23 2015 21:44:22 for QSense Sidecar Library by
+    <li class="footer">Generated on Tue Oct 27 2015 16:09:14 for QSense Sidecar Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

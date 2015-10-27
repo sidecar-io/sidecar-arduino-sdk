@@ -231,6 +231,13 @@ namespace qsense
     return compare( null() ) == 0;
   }
 
+  /// Serialise the string representation of the UUID to the output stream
+  inline std::ostream& operator << ( std::ostream& os, const UUID& uuid )
+  {
+    os << uuid.toString();
+    return os;
+  }
+
 } // namespace qsense
 
 #endif // QSENSE_UUID_H

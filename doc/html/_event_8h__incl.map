@@ -1,6 +1,7 @@
 <map id="/Users/rakesh/svn/customer/qsense/desktop/src/api/Event.h" name="/Users/rakesh/svn/customer/qsense/desktop/src/api/Event.h">
-<area shape="rect" id="node2" href="$_q_sense_8h.xhtml" title="QSense.h" alt="" coords="69,259,150,285"/>
-<area shape="rect" id="node5" href="$_location_8h.xhtml" title="Location.h" alt="" coords="27,109,111,136"/>
-<area shape="rect" id="node7" href="$_reading_8h.xhtml" title="Reading.h" alt="" coords="136,109,219,136"/>
-<area shape="rect" id="node8" href="$_date_time_8h.xhtml" title="net/DateTime.h" alt="" coords="221,184,334,211"/>
+<area shape="rect" id="node2" href="$_q_sense_8h.xhtml" title="QSense.h" alt="" coords="134,259,215,285"/>
+<area shape="rect" id="node5" href="$_location_8h.xhtml" title="Location.h" alt="" coords="24,109,108,136"/>
+<area shape="rect" id="node7" href="$_reading_8h.xhtml" title="Reading.h" alt="" coords="133,109,216,136"/>
+<area shape="rect" id="node9" href="$_u_u_i_d_8h.xhtml" title="UUID.h" alt="" coords="350,184,415,211"/>
+<area shape="rect" id="node8" href="$_date_time_8h.xhtml" title="net/DateTime.h" alt="" coords="212,184,326,211"/>
 </map>

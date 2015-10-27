@@ -49,6 +49,29 @@ public:
     const String secret;
   };
 
+  /// A simple data structure that encapsulates the data required to
+  /// initialise the Event API
+  struct EventAPIData
+  {
+    /**
+     * @brief The device identifier for the hardware. This value should be
+     * considered static (e.g., a MAC Address).
+     *
+     * \b Note: Sidecar expects this value to be a 36 character UUID.
+     */
+    String deviceUUID;
+
+    /// The user defined stream name
+    String stream;
+
+    /// Latitude for current device location
+    float latitude;
+
+    /// Longitude for current device location
+    float longitude;
+  };
+
+  /// Default constructor.
   SimpleSidecarClient() {}
 
   /// Enumeration of network connection types for device
@@ -153,14 +176,9 @@ public:
   /**
    * @brief Initialise the Sidecar Event API.
    *
-   * @param streamId The user defined stream name
-   * @param deviceUUID The device identifier for the hardware, this value
-   *   should be considered static (e.g., a MAC Address).
-   * @param latitude Latitude for current device location
-   * @param longitude Longitude for current device location
+   * @param data The structure with initialisation data.
    */
-  static void initEventAPI( const String& streamId, const String& deviceUUID,
-      const float latitude, const float longitude );
+  static void initEventAPI( const EventAPIData& data );
 
   /**
    * @brief Add the specified reading key-value pair to an event.  Add

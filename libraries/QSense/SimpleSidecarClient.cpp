@@ -121,11 +121,11 @@ int16_t SimpleSidecarClient::deleteUser( const String& username, const String& p
 }
 
 
-void SimpleSidecarClient::initEventAPI( const String& streamId,
-    const String& deviceUUID, const float latitude, const float longitude )
+void SimpleSidecarClient::initEventAPI( const EventAPIData& data )
 {
-  qsense::Location location( latitude, longitude );
-  qsense::Event::init( deviceUUID.c_str(), streamId.c_str(), location );
+  qsense::Location location( data.latitude, data.longitude );
+  qsense::Event::init( qsense::UUID( data.deviceUUID.c_str() ),
+      data.stream.c_str(), location );
 }
 
 

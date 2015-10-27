@@ -19,12 +19,14 @@ limitations under the License.
 #include "QSense.h"
 #include "Location.h"
 #include "Reading.h"
+#include "UUID.h"
 #include "../StandardCplusplus/vector"
 #include "../StandardCplusplus/map"
 #else
 #include <QSense.h>
 #include <Location.h>
 #include <Reading.h>
+#include <UUID.h>
 #include <vector>
 #include <map>
 #endif
@@ -145,7 +147,7 @@ namespace qsense
      * @param stream The stream identifier to use with Sidecar
      * @param location A default location to use.  No location tracking at present
      */
-    static void init( const qsense::QString& deviceId,
+    static void init( const qsense::UUID& deviceId,
       const qsense::QString& stream, const qsense::Location& location );
 
   private:

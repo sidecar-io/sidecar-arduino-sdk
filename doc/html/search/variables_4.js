@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['responsecode',['responseCode',['../structqsense_1_1net_1_1_sidecar_client_1_1_user_response.xhtml#a785d50a9e4404efe611e28d863893f1b',1,'qsense::net::SidecarClient::UserResponse::responseCode()'],['../struct_simple_sidecar_client_1_1_user_response.xhtml#a533f9c3e68869e672659943bf7904d05',1,'SimpleSidecarClient::UserResponse::responseCode()']]]
+  ['latitude',['latitude',['../struct_simple_sidecar_client_1_1_event_a_p_i_data.xhtml#a45347aef2dfe9995239e759753f5666c',1,'SimpleSidecarClient::EventAPIData']]],
+  ['longitude',['longitude',['../struct_simple_sidecar_client_1_1_event_a_p_i_data.xhtml#a417847fb496d4673bd2b8a2014c1dc1b',1,'SimpleSidecarClient::EventAPIData']]]
 ];

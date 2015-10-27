@@ -125,6 +125,9 @@ $(document).ready(function(){initNavTree('class_simple_sidecar_client.xhtml','')
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simple_sidecar_client_1_1_event_a_p_i_data.xhtml">EventAPIData</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A simple data structure that encapsulates the data required to initialise the Event API.  <a href="struct_simple_sidecar_client_1_1_event_a_p_i_data.xhtml#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simple_sidecar_client_1_1_user_response.xhtml">UserResponse</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A simple data structure that represents the response from Sidecar Provisioning API.  <a href="struct_simple_sidecar_client_1_1_user_response.xhtml#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,6 +143,7 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4165ce06371cb8ab7a6465b081a0b389"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simple_sidecar_client.xhtml#a4165ce06371cb8ab7a6465b081a0b389">SimpleSidecarClient</a> ()</td></tr>
+<tr class="memdesc:a4165ce06371cb8ab7a6465b081a0b389"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a4165ce06371cb8ab7a6465b081a0b389">More...</a><br /></td></tr>
 <tr class="separator:a4165ce06371cb8ab7a6465b081a0b389"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16f32a877a5c97f429ff0b548465a76c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_simple_sidecar_client_1_1_user_response.xhtml">UserResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simple_sidecar_client.xhtml#a16f32a877a5c97f429ff0b548465a76c">authenticate</a> (const String &amp;username, const String &amp;password)</td></tr>
 <tr class="memdesc:a16f32a877a5c97f429ff0b548465a76c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Authenticate the user against Sidecar. Return the existing user key/secret pair to use with the events API.  <a href="#a16f32a877a5c97f429ff0b548465a76c">More...</a><br /></td></tr>
@@ -189,9 +193,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a8b73149ff9c868aa4ddd516e1bc32869"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6460635f3bda30c0e2607840778ce911"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simple_sidecar_client.xhtml#a6460635f3bda30c0e2607840778ce911">initUserKey</a> (const String &amp;userKey, const String &amp;userSecret)</td></tr>
 <tr class="separator:a6460635f3bda30c0e2607840778ce911"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57814a206ef34093f779841f0c250587"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simple_sidecar_client.xhtml#a57814a206ef34093f779841f0c250587">initEventAPI</a> (const String &amp;streamId, const String &amp;deviceUUID, const float latitude, const float longitude)</td></tr>
-<tr class="memdesc:a57814a206ef34093f779841f0c250587"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise the Sidecar Event API.  <a href="#a57814a206ef34093f779841f0c250587">More...</a><br /></td></tr>
-<tr class="separator:a57814a206ef34093f779841f0c250587"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a3587a81efecdf1addd796103b9b2a9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_simple_sidecar_client.xhtml#a1a3587a81efecdf1addd796103b9b2a9">initEventAPI</a> (const <a class="el" href="struct_simple_sidecar_client_1_1_event_a_p_i_data.xhtml">EventAPIData</a> &amp;data)</td></tr>
+<tr class="memdesc:a1a3587a81efecdf1addd796103b9b2a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise the Sidecar Event API.  <a href="#a1a3587a81efecdf1addd796103b9b2a9">More...</a><br /></td></tr>
+<tr class="separator:a1a3587a81efecdf1addd796103b9b2a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A simple client implementation that hides the low-level API. </p>
@@ -239,6 +243,8 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Default constructor. </p>
 
 </div>
 </div>
@@ -573,7 +579,7 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a57814a206ef34093f779841f0c250587"></a>
+<a class="anchor" id="a1a3587a81efecdf1addd796103b9b2a9"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -583,31 +589,9 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">static void SimpleSidecarClient::initEventAPI </td>
           <td>(</td>
-          <td class="paramtype">const String &amp;&#160;</td>
-          <td class="paramname"><em>streamId</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">const <a class="el" href="struct_simple_sidecar_client_1_1_event_a_p_i_data.xhtml">EventAPIData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">const String &amp;&#160;</td>
-          <td class="paramname"><em>deviceUUID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float&#160;</td>
-          <td class="paramname"><em>latitude</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const float&#160;</td>
-          <td class="paramname"><em>longitude</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -620,10 +604,7 @@ Static Public Member Functions</h2></td></tr>
 <p>Initialise the Sidecar Event API. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">streamId</td><td>The user defined stream name </td></tr>
-    <tr><td class="paramname">deviceUUID</td><td>The device identifier for the hardware, this value should be considered static (e.g., a MAC Address). </td></tr>
-    <tr><td class="paramname">latitude</td><td>Latitude for current device location </td></tr>
-    <tr><td class="paramname">longitude</td><td>Longitude for current device location </td></tr>
+    <tr><td class="paramname">data</td><td>The structure with initialisation data. </td></tr>
   </table>
   </dd>
 </dl>
@@ -769,7 +750,7 @@ Static Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_simple_sidecar_client.xhtml">SimpleSidecarClient</a></li>
-    <li class="footer">Generated on Fri Oct 23 2015 21:44:22 for QSense Sidecar Library by
+    <li class="footer">Generated on Tue Oct 27 2015 16:09:14 for QSense Sidecar Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

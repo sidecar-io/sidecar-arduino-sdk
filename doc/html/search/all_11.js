@@ -14,5 +14,6 @@ var searchData=
   ['simplesidecarclient_2eh',['SimpleSidecarClient.h',['../_simple_sidecar_client_8h.xhtml',1,'']]],
   ['singleton',['singleton',['../classqsense_1_1net_1_1_date_time.xhtml#a57000d63524184795697b69bef5d45eb',1,'qsense::net::DateTime']]],
   ['state',['state',['../structqsense_1_1hash_1_1_sha1_1_1_context.xhtml#a5dcb0bd359233e37f5290c82cced6d84',1,'qsense::hash::Sha1::Context']]],
+  ['stream',['stream',['../struct_simple_sidecar_client_1_1_event_a_p_i_data.xhtml#a3994802fdb7a469a7a6e8d5712e9f6ff',1,'SimpleSidecarClient::EventAPIData']]],
   ['swap',['swap',['../classqsense_1_1_auto_ptr.xhtml#a3c39d34dfefc3e70cc03ef8331b0bde6',1,'qsense::AutoPtr::swap()'],['../namespaceqsense.xhtml#aa3e682a972f3fd246019ca3b0bd5a096',1,'qsense::swap()']]]
 ];

@@ -1,5 +1,6 @@
 var class_simple_sidecar_client =
 [
+    [ "EventAPIData", "struct_simple_sidecar_client_1_1_event_a_p_i_data.xhtml", "struct_simple_sidecar_client_1_1_event_a_p_i_data" ],
     [ "UserResponse", "struct_simple_sidecar_client_1_1_user_response.xhtml", "struct_simple_sidecar_client_1_1_user_response" ],
     [ "NetworkType", "class_simple_sidecar_client.xhtml#ae727e1760c4ff910d3c1ea307a5f33ca", [
       [ "Ethernet", "class_simple_sidecar_client.xhtml#ae727e1760c4ff910d3c1ea307a5f33caa6e964ab628bd9bb8c2a178c3e79803b0", null ],

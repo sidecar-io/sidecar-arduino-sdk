@@ -15,11 +15,9 @@ limitations under the License.
 #include "Event.h"
 
 #if defined( ARDUINO )
-#include "UUID.h"
 #include "DateTime.h"
 #include "../StandardCplusplus/sstream"
 #else
-#include <UUID.h>
 #include <net/DateTime.h>
 #include <sstream>
 #endif
@@ -28,7 +26,7 @@ namespace qsense
 {
   namespace data
   {
-    static qsense::QString deviceId;
+    static qsense::UUID deviceId;
     static qsense::QString stream;
     static qsense::Location location;
   }
@@ -75,7 +73,7 @@ const QString Event::toString() const
 }
 
 
-void Event::init( const QString& deviceId, const QString& stream,
+void Event::init( const qsense::UUID& deviceId, const QString& stream,
     const qsense::Location& location )
 {
   qsense::data::deviceId = deviceId;
