@@ -1,23 +1,31 @@
+/*
+Copyright 2015 Sidecar 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 #include <SPI.h>
 #include <Ethernet.h>
 #include <WiFi.h>
 
 #include <StandardCplusplus.h>
-
-#include <QHttpClient.h>
-#include <DateTime.h>
-#include <SidecarClient.h>
-#include <UUID.h>
+#include <SimpleSidecarClient.h>
+#include <serstream>
 
 namespace std
 {
   ohserialstream cout(Serial);
 }
 
-using qsense::QString;
-
 const int ledPower = 12;
-
 
 // A proper unique mac address is critical to having a stable UUID generated
 // for events published to Sidecar service.  Please use the MAC address
@@ -27,41 +35,49 @@ byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 // Set the static IP address to use if the DHCP fails to assign
 IPAddress ip( 192, 168, 0, 177 );
 
+SimpleSidecarClient client;
 
 void initUUID()
 {
   // Initialise UUID engine
   // If using WiFi, the WiFi api provides a way to look up current MAC
   // address.  That would be better to get proper UUID values.
-  qsense::UUID::init( mac );
+  SimpleSidecarClient::initUUID( mac );
 }
 
 
 void initSidecar()
 {
+  Serial.setTimeout( 30000 );
+
   // Sidecar API key/secret for initialising SidecarClient API.
-  const QString apiKey = "";
-  const QString apiSecret = "";
+  Serial.println( F( "Please enter your user access key:" ) );
+  const String userKey = Serial.readStringUntil( '\n' );
+  Serial.println( F( "Please enter your user access secret:" ) );
+  const String userSecret = Serial.readStringUntil( '\n' );
 
   // Initialise SidecarClient API
-  qsense::net::SidecarClient::init( apiKey, apiSecret );
+  SimpleSidecarClient::initUserKey( userKey, userSecret );
+  Serial.setTimeout( 1000 );
 }
 
 
 void initEventAPI()
 {
+  SimpleSidecarClient::EventAPIData data;
   // Sidecar stream id to use
-  const QString streamId = "airQuality";
+  data.stream = "airQuality";
 
   // Unique device UUID value.  Change per device deployment
-  const QString deviceUUID = "47c247bb-493d-482d-be8d-ebaeb2813170";
+  data.deviceUUID = "47c247bb-493d-482d-be8d-ebaeb2813170";
 
   // Default location to use.  At present there is no way to dynamically
   // retrieve location for the device.
-  const qsense::Location location( 47.60621, -122.33207 );
+  data.latitude = 47.60621;
+  data.longitude = -122.33207;
 
   // Initialise the Event API
-  qsense::Event::init( deviceUUID, streamId, location );
+  SimpleSidecarClient::initEventAPI( data );
 }
 
 
@@ -70,16 +86,16 @@ void initEthernet()
 {
   if ( Ethernet.begin( mac ) == 0 )
   {
-    std::cout << F( "Failed to configure Ethernet using DHCP" ) << std::endl;
+    Serial.println( F( "Failed to configure Ethernet using DHCP" ) );
     Ethernet.begin( mac, ip );
   }
 
   // give the Ethernet shield a second to initialize:
-  std::cout << F( "Connecting to network..." ) << std::endl;
+  Serial.println( F( "Connecting to network..." ) );
   delay( 1000 );
 
   // Initialise network API to use Ethernet
-  qsense::net::initNetworkType( qsense::net::Ethernet );
+  SimpleSidecarClient::initNetworkType( SimpleSidecarClient::Ethernet );
 }
 
 
@@ -89,7 +105,7 @@ void initWiFi()
   // Perform normal WiFi setup
 
   // Initialise network API to use WiFi
-  qsense::net::initNetworkType( qsense::net::WiFi );
+  SimpleSidecarClient::initNetworkType( SimpleSidecarClient::WiFi );
 }
 
 
@@ -102,51 +118,44 @@ void measure()
 
   const int measurePin = 6;
   float voMeasured = analogRead( measurePin ); // read the dust value
-
+  client.addReading( "SV", voMeasured );
+  
   const int deltaTime = 40;
   delayMicroseconds( deltaTime );
   digitalWrite( ledPower, HIGH ); // turn the LED off
 
   const int sleepTime = 9680;
   delayMicroseconds( sleepTime );
-
+ 
   // 0 - 5.0V mapped to 0 - 1023 integer values
   // recover voltage
   const float calcVoltage = voMeasured * ( 5.0 / 1024 );
   const float dustDensity = 0.17 * calcVoltage - 0.1;
 
-  qsense::net::DateTime& dt = qsense::net::DateTime::singleton();
-  const QString& date = dt.date();
-  const QString& time = dt.currentTime();
-
-  qsense::Event event;
-
   // Add the readings
-  event += qsense::Reading( "SV", voMeasured, time );
-  event += qsense::Reading( "V", calcVoltage, time );
-  event += qsense::Reading( "DD", dustDensity, time );
+  client.addReading( "V", calcVoltage );
+  client.addReading( "DD", dustDensity );
 
   // Add tags to the event.  To demonstrate we add current date to help
   // easily retrieve readings by day
-  event += date;
-
-  qsense::net::SidecarClient client;
-  if ( client.publish( event ) )
+  client.addTag( client.date() );
+  
+  if ( client.publish() )
   {
-    std::cout << "Published " << event << " to sidecar" << std::endl;
+    Serial.println( F( "Published event to sidecar" ) );
   }
   else
   {
-    std::cout << "Error publishing " << event << " to sidecar" << std::endl;
+    Serial.println( F( "Error publishing event to sidecar" ) );
   }
 }
 
 
-int freeRam()
+int freeRam() 
 {
-  extern int __heap_start, *__brkval;
-  int v;
-  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+  extern int __heap_start, *__brkval; 
+  int v; 
+  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
 }
 
 
@@ -166,9 +175,12 @@ void setup()
 
 void loop()
 {
-  std::cout << F( "Current time: " ) << qsense::net::DateTime::singleton().currentTime() << std::endl;
+  Serial.print( F( "Current time: " ) );
+  Serial.println( client.currentTime() );
   measure();
-
-  std::cout << F( "Free SRAM: " ) << freeRam() << std::endl;
-  delay( 60000 );
+  
+  Serial.print( F( "Free SRAM: " ) );
+  Serial.println( freeRam() );
+  delay( 5000 );
 }
+
