@@ -118,7 +118,7 @@ SidecarClient::UserResponse SidecarClient::createUser(
 
   if ( client->connect( data::server ) )
   {
-#if defined( ARDUINO )
+#if DEBUG
     std::cout << F( "Connected to " ) << data::server << std::endl;
 #endif
 
@@ -149,7 +149,7 @@ SidecarClient::UserResponse SidecarClient::createUser(
     request.setBody( json );
 
     responseCode = client->post( request );
-#if defined( ARDUINO )
+#if DEBUG
     std::cout << F( "User Provision API returned HTTP response code: " ) << responseCode << std::endl;
 #endif
 
@@ -164,16 +164,9 @@ SidecarClient::UserResponse SidecarClient::createUser(
     }
     else
     {
-#if ! defined( ARDUINO )
-      std::cout << "User Provision API returned HTTP response code: " << responseCode << std::endl;
-#endif
       while ( client->connected() )
       {
-#if defined( ARDUINO )
         std::cout << F( "  [resp] " ) << client->readLine() << std::endl;
-#else
-        std::cout << "  [resp] " << client->readLine() << std::endl;
-#endif
       }
     }
   }
@@ -198,7 +191,7 @@ SidecarClient::UserResponse SidecarClient::createOrRetrieveAccessKeys(
 
   if ( client->connect( data::server ) )
   {
-#if defined( ARDUINO )
+#if DEBUG
     std::cout << F( "Connected to " ) << data::server << std::endl;
 #endif
 
@@ -228,7 +221,7 @@ SidecarClient::UserResponse SidecarClient::createOrRetrieveAccessKeys(
     request.setBody( json );
 
     responseCode = client->post( request );
-#if defined( ARDUINO )
+#if DEBUG
     std::cout << F( "Create or Retrieve API returned HTTP response code: " ) << responseCode << std::endl;
 #endif
 
@@ -243,16 +236,9 @@ SidecarClient::UserResponse SidecarClient::createOrRetrieveAccessKeys(
     }
     else
     {
-#if ! defined( ARDUINO )
-    std::cout << "Create or Retrieve API returned HTTP response code: " << responseCode << std::endl;
-#endif
       while ( client->connected() )
       {
-#if defined( ARDUINO )
         std::cout << F( "  [resp] " ) << client->readLine() << std::endl;
-#else
-        std::cout << "  [resp] " << client->readLine() << std::endl;
-#endif
       }
     }
   }
@@ -277,7 +263,7 @@ SidecarClient::UserResponse SidecarClient::authenticate(
 
   if ( client->connect( data::server ) )
   {
-#if defined( ARDUINO )
+#if DEBUG
     std::cout << F( "Connected to " ) << data::server << std::endl;
 #endif
 
@@ -306,7 +292,7 @@ SidecarClient::UserResponse SidecarClient::authenticate(
     request.setBody( json );
 
     responseCode = client->post( request );
-#if defined( ARDUINO )
+#if DEBUG
     std::cout << F( "User Provision API returned HTTP response code: " ) << responseCode << std::endl;
 #endif
 
@@ -321,16 +307,9 @@ SidecarClient::UserResponse SidecarClient::authenticate(
     }
     else
     {
-#if ! defined( ARDUINO )
-    std::cout << "User Provision API returned HTTP response code: " << responseCode << std::endl;
-#endif
       while ( client->connected() )
       {
-#if defined( ARDUINO )
         std::cout << F( "  [resp] " ) << client->readLine() << std::endl;
-#else
-        std::cout << "  [resp] " << client->readLine() << std::endl;
-#endif
       }
     }
   }
@@ -354,7 +333,7 @@ int16_t SidecarClient::deleteUser( const QString& username, const QString& passw
 
   if ( client->connect( data::server ) )
   {
-#if defined( ARDUINO )
+#if DEBUG
     std::cout << F( "Connected to " ) << data::server << std::endl;
 #endif
 
@@ -383,7 +362,7 @@ int16_t SidecarClient::deleteUser( const QString& username, const QString& passw
     request.setBody( json );
 
     responseCode = client->remove( request );
-#if defined( ARDUINO )
+#if DEBUG
     std::cout << F( "User Provision API returned HTTP response code: " ) << responseCode << std::endl;
 #endif
   }
@@ -407,7 +386,7 @@ bool SidecarClient::publish( const qsense::Event& event ) const
 
   if ( client->connect( data::server ) )
   {
-#if defined( ARDUINO )
+#if DEBUG
     std::cout << F( "Connected to " ) << data::server << std::endl;
 #endif
 
@@ -436,33 +415,22 @@ bool SidecarClient::publish( const qsense::Event& event ) const
     request.setBody( eventJson );
 
     uint16_t responseCode = client->post( request );
-#if defined( ARDUINO )
+#if DEBUG
     std::cout << F( "Event API returned HTTP response code: " ) << responseCode << std::endl;
 #endif
 
     if ( responseCode == 202 ) flag = true;
     else
     {
-#if ! defined( ARDUINO )
-    std::cout << "Event API returned HTTP response code: " << responseCode << std::endl;
-#endif
       while ( client->connected() )
       {
-#if defined( ARDUINO )
         std::cout << F( "  [resp] " ) << client->readLine() << std::endl;
-#else
-        std::cout << "  [resp] " << client->readLine() << std::endl;
-#endif
       }
     }
   }
   else
   {
-#if defined( ARDUINO )
     std::cout << F( "Connection to " ) << data::server << F( " failed" ) << std::endl;
-#else
-    std::cout << "Connection to " << data::server << " failed" << std::endl;
-#endif
   }
 
   return flag;

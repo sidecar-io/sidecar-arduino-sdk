@@ -140,31 +140,18 @@ namespace qsense
       {
         uint16_t status = 0;
 
-#if defined( ARDUINO )
         C::print( F( "GET " ) );
-#else
-        C::print( "GET " );
-#endif
 
         C::print( request.getUri().c_str() );
         const QString& parameters = request.getParamters();
         if ( parameters.size() > 0 )
         {
-#if defined( ARDUINO )
           C::print( F( "?" ) );
-#else
-          C::print( "?" );
-#endif
           C::print( parameters.c_str() );
         }
 
-#if defined( ARDUINO )
         C::println( F( " HTTP/1.1" ) );
         C::print( F( "Host: " ) );
-#else
-        C::println( " HTTP/1.1" );
-        C::print( "Host: " );
-#endif
 
         C::println( server.c_str() );
         writeHeaders( request );
@@ -196,28 +183,18 @@ namespace qsense
         C::print( method.c_str() );
         C::print( " " );
 
-#if defined( ARDUINO )
         C::print( request.getUri().c_str() );
         C::println( F( " HTTP/1.1" ) );
         C::print( F( "Host: " ) );
-#else
-        C::print( request.getUri().c_str() );
-        C::println( " HTTP/1.1" );
-        C::print( "Host: " );
-#endif
         C::println( server.c_str() );
 
         if ( request.getBody().size() > 0 )
         {
-#if defined( ARDUINO )
           C::print( F( "Content-Length: " ) );
-#else
-          C::print( "Content-Length: " );
-#endif
           C::println( request.getBody().length() );
         }
 
-#if defined( ARDUINO )
+#if DEBUG
         std::cout << F( "  [req] ") << method << F( " " ) <<
           request.getUri() << F( " HTTP/1.1" ) << std::endl;
         std::cout << F( "  [req] Host: " ) << server << std::endl;
@@ -232,7 +209,7 @@ namespace qsense
         if ( request.getBody().size() > 0 )
         {
           C::println( request.getBody().c_str() );
-#if defined( ARDUINO )
+#if DEBUG
           std::cout << F( "  [req] " ) << request.getBody() << std::endl;
 #endif
         }
@@ -242,7 +219,7 @@ namespace qsense
         {
           const QString& line = readLine();
           if ( line.length() > 14 ) status =  atoi( line.substr( 9, 3 ).c_str() );
-#if defined( ARDUINO )
+#if DEBUG
           std::cout << F( "  [resp] " ) << line << std::endl;
 #endif
         }
@@ -331,20 +308,18 @@ namespace qsense
           C::print( iter->first.c_str() );
           C::print( ": " );
           C::println( iter->second.c_str() );
-#if defined( ARDUINO )
+#if DEBUG
           std::cout << F( "  [req] " ) << iter->first << ": " << iter->second << std::endl;
 #endif
         }
 
-#if defined( ARDUINO )
         if ( close )
         {
           C::println( F( "Connection: close" ) );
+#if DEBUG
           std::cout << F( "  [req] " ) << F( "Connection: close" ) << std::endl << std::endl;
-        }
-#else
-        if ( close ) C::println( "Connection: close" );
 #endif
+        }
         C::println();
       }
 

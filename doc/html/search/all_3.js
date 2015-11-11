@@ -4,6 +4,7 @@ var searchData=
   ['datetime',['DateTime',['../classqsense_1_1net_1_1_date_time.xhtml#a48f70cf94b28100842e8ec1cfc47936f',1,'qsense::net::DateTime']]],
   ['datetime',['DateTime',['../classqsense_1_1net_1_1_date_time.xhtml',1,'qsense::net']]],
   ['datetime_2eh',['DateTime.h',['../_date_time_8h.xhtml',1,'']]],
+  ['debug',['DEBUG',['../_q_sense_8h.xhtml#ad72dbcf6d0153db1b8d8a58001feed83',1,'QSense.h']]],
   ['decode',['decode',['../namespaceqsense_1_1hash_1_1base64.xhtml#a6b270bb21ed5d566a94c196082def8f8',1,'qsense::hash::base64']]],
   ['decodelength',['decodeLength',['../namespaceqsense_1_1hash_1_1base64.xhtml#af1e207ab764707e80cf94248bafc8941',1,'qsense::hash::base64']]],
   ['deleteuser',['deleteUser',['../classqsense_1_1net_1_1_sidecar_client.xhtml#a214ad1d4309a236d89ce206a9fdb0575',1,'qsense::net::SidecarClient::deleteUser()'],['../class_simple_sidecar_client.xhtml#a3777df171e3474854445fde0ff299799',1,'SimpleSidecarClient::deleteUser()']]],

@@ -112,7 +112,7 @@ const qsense::QString DateTime::serverTime()
 
   if ( client->connect( server ) )
   {
-#if defined( ARDUINO )
+#if DEBUG
     std::cout << F( "Connected to " ) << server << std::endl;
 #endif
 
@@ -121,10 +121,8 @@ const qsense::QString DateTime::serverTime()
 
     uint16_t responseCode = client->get( request );
 
-#if defined( ARDUINO )
+#if DEBUG
     std::cout << F( "Server returned HTTP response code: " ) << responseCode << std::endl;
-#else
-    std::cout << "Server returned HTTP response code: " << responseCode << std::endl;
 #endif
 
     if ( responseCode == 200 && client->connected() )
@@ -137,11 +135,7 @@ const qsense::QString DateTime::serverTime()
   }
   else
   {
-#if defined( ARDUINO )
     std::cout << F( "Connection to " ) << server << F( " failed" ) << std::endl;
-#else
-    std::cout << "Connection to " << server << " failed" << std::endl;
-#endif
   }
 
   return QString();

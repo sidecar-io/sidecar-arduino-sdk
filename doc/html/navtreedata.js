@@ -9,7 +9,8 @@ var NAVTREE =
         [ "Provisioning API", "index.xhtml#ipi", null ],
         [ "Event API", "index.xhtml#iei", null ]
       ] ],
-      [ "Core API", "index.xhtml#ici", null ]
+      [ "Core API", "index.xhtml#ici", null ],
+      [ "Debug Output", "index.xhtml#idg", null ]
     ] ],
     [ "Publish Sensor Data", "index.xhtml#publish", [
       [ "Simple Arduino API", "index.xhtml#psai", null ],
@@ -52,7 +53,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_auto_ptr_8h.xhtml",
-"functions_func.xhtml"
+"functions_eval.xhtml"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

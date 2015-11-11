@@ -24,6 +24,11 @@ limitations under the License.
 #else
 #include <cstdint>
 #include <string>
+#define F(x) x
+#endif
+
+#ifndef DEBUG
+#define DEBUG 0
 #endif
 
 /**
