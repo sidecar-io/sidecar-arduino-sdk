@@ -4,6 +4,10 @@
 
 The open source Sidecar Adruino client wraps the <a href="https://api.sidecar.io/docs">Sidecar REST API</a> and handles event ingestion, authenticaion and queries. 
 
+<b>System Requirements</b>
+<li>Arduino Mega
+<li>Sidecar Compatible Ethernet Shield (TBD)
+
 <b>What is Sidecar?</b>
 
 Sidecar is a data platform purpose built to consume and analyze sensor-based data streams so that the owners and developers of IoT hardware do not need to be concerned with the large infrastructure and development overhead associated with the long term persistence and meaningful computation of that data.  Once device data is stored in Sidecar, the platform is capable of:
