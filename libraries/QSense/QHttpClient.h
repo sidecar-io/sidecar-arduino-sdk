@@ -15,8 +15,14 @@ limitations under the License.
 #ifndef QSENSE_NET_HTTPCLIENT_H
 #define QSENSE_NET_HTTPCLIENT_H
 
+#include "QSense.h"
+
 #if defined( ARDUINO )
+#if USE_Ethernet_Shield_V2
+#include <EthernetV2_0.h>
+#else
 #include <Ethernet.h>
+#endif
 #include "AutoPtr.h"
 #include "RefCountedObject.h"
 #include "HttpRequest.h"

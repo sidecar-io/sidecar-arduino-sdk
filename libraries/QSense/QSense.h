@@ -21,13 +21,19 @@ limitations under the License.
 #include "../StandardCplusplus/StandardCplusplus.h"
 #include "../StandardCplusplus/serstream"
 #include "../StandardCplusplus/string"
+// Set to 1 to use Ethernet_Shield_V2.0 ethernet library or 0 for default Arduino
+#define USE_Ethernet_Shield_V2 1
 #else
 #include <cstdint>
 #include <string>
+#endif
+
+#ifndef F
 #define F(x) x
 #endif
 
 #ifndef DEBUG
+// Change to 1 to enable debug output
 #define DEBUG 0
 #endif
 

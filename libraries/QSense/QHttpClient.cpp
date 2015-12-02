@@ -14,7 +14,6 @@ limitations under the License.
 */
 #include "QHttpClient.h"
 
-
 #if defined( ARDUINO )
 #include <WiFiClient.h>
 #include "../StandardCplusplus/iostream"
@@ -81,11 +80,7 @@ namespace qsense
         return buffer.size() - current;
       }
 
-#if defined( ARDUINO )
-      int timedRead()
-#else
       char timedRead()
-#endif
       {
         populate();
         return ( current < buffer.size() ) ? buffer[current++] : -1;
@@ -244,12 +239,20 @@ namespace qsense
           if ( bytes )
           {
             line.reserve( bytes );
+#if USE_Ethernet_Shield_V2
+            c = C::read();
+#else
             c = C::timedRead();
+#endif
 
             while ( c >= 0 && c != '\n' )
             {
               if ( c != '\r' ) line += static_cast<char>( c );
+#if USE_Ethernet_Shield_V2
+              c = C::read();
+#else
               c = C::timedRead();
+#endif
             }
           }
 

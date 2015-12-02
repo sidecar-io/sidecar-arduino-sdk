@@ -13,8 +13,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 #include <SPI.h>
-#include <Ethernet.h>
+//#include <Ethernet.h>
+#include <EthernetV2_0.h>
 #include <WiFi.h>
+
+#define W5200_CS  10
+#define SDCARD_CS 4
 
 #include <StandardCplusplus.h>
 #include <SimpleSidecarClient.h>

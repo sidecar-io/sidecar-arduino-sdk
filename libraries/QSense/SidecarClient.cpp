@@ -20,7 +20,11 @@ limitations under the License.
 #include "MD5.h"
 #include "Sha1.h"
 #include "../StandardCplusplus/sstream"
+#if USE_Ethernet_Shield_V2
+#include <EthernetV2_0.h>
+#else
 #include <Ethernet.h>
+#endif
 #else
 #include <hash/MD5.h>
 #include <hash/Sha1.h>
