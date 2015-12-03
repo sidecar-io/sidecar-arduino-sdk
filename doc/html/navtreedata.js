@@ -10,6 +10,7 @@ var NAVTREE =
         [ "Event API", "index.xhtml#iei", null ]
       ] ],
       [ "Core API", "index.xhtml#ici", null ],
+      [ "Seed Studio Ethernet Shield", "index.xhtml#isse", null ],
       [ "Debug Output", "index.xhtml#idg", null ]
     ] ],
     [ "Publish Sensor Data", "index.xhtml#publish", [

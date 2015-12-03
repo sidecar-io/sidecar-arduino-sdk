@@ -160,6 +160,9 @@ Core API</h2>
 <li>Initialise the Sidecar library with the user access key and secret used for authentication/authorisation (<a class="el" href="classqsense_1_1net_1_1_sidecar_client.xhtml#ae3bbc12110e4faf03fa49caf2b56e0a3">qsense::net::SidecarClient::initUserKey</a>). </li>
 <li>Initialise the Event API with the stream identifier, device UUID, and a default geographic <a class="el" href="classqsense_1_1_location.xhtml">qsense::Location</a> (<a class="el" href="classqsense_1_1_event.xhtml#a0905b200328ec3f3fc7411c8247b6f44">qsense::Event::init</a>).</li>
 </ul>
+<h2><a class="anchor" id="isse"></a>
+Seed Studio Ethernet Shield</h2>
+<p>The standard Arduino Ethernet Library seems to be incompatible with Arduino Mega boards (the board the library supports). For users of the common <a href="http://www.seeedstudio.com/wiki/Ethernet_Shield_V2.0">Seed Studio Ethernet Shield</a>, Seed Studio provides their own <a href="https://github.com/Seeed-Studio/Ethernet_Shield_W5200">Ethernet Shield V2.0</a> library (which is also included in the source distribution for convenience). Separate example sketches (ending with -SeedStudio) are provided for use with Seed Studio Ethernet Shields. A minor modification to the <a class="el" href="_q_sense_8h.xhtml">QSense.h</a> file is necessary to be able to use the Seed Studio library (documented in the example sketches as well). Set the <code>USE_Ethernet_Shield_V2</code> to 1 in <a class="el" href="_q_sense_8h.xhtml">QSense.h</a> to use the Seed Studio Ethernet library instead of the standard Arduino Ethernet library.</p>
 <h2><a class="anchor" id="idg"></a>
 Debug Output</h2>
 <p>To enable debug information (print request/response data to the Serial interface), edit the <a class="el" href="_q_sense_8h.xhtml">QSense.h</a> file and set the value of <code>DEBUG</code> to 1. The default value is 0, and no debug information will be output by the API. Users building applications using tools other than the official Arduino IDE may be able to specify the DEBUG pre-processor definition as part of the build process.</p>
@@ -186,6 +189,7 @@ Libraries</h1>
 <p>The only third-party library necessary is the Standard C++ Library.</p>
 <ul>
 <li><a href="https://github.com/maniacbug/StandardCplusplus">Standard C++</a> </li>
+<li><a href="https://github.com/Seeed-Studio/Ethernet_Shield_W5200">Ethernet Shield V2.0</a> for Seed Studio Ethernet boards </li>
 <li><a href="http://pocoproject.org/index.html">Poco</a> - needed for using on non-Arduino platforms (for network interactions). We have tested only on Mac OS X and Windows, however Poco runs on most platforms including iOS and Android. </li>
 </ul>
 </div></div><!-- contents -->
@@ -193,7 +197,7 @@ Libraries</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Nov 10 2015 19:30:35 for QSense Sidecar Library by
+    <li class="footer">Generated on Thu Dec 3 2015 10:29:52 for QSense Sidecar Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>

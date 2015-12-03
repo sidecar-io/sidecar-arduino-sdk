@@ -12,24 +12,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-#include <SPI.h>
-//#include <Ethernet.h>
-#include <EthernetV2_0.h>
-#include <WiFi.h>
 
-#define W5200_CS  10
-#define SDCARD_CS 4
+#include <SPI.h>
+
+// Please Note: To use default Arduino Ethernet driver, you need to edit the
+// QSense.h file in the QSense library and set USE_Ethernet_Shield_V2 to 0
+// #define USE_Ethernet_Shield_V2 0
+#include <Ethernet.h>
+
+#include <WiFi.h>
 
 #include <StandardCplusplus.h>
 #include <SimpleSidecarClient.h>
 #include <serstream>
 
+// Please do not remove.  Needed by QSense library
 namespace std
 {
   ohserialstream cout(Serial);
 }
-
-//using qsense::QString;
 
 const int ledPower = 12;
 
