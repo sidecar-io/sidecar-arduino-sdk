@@ -98,11 +98,7 @@ const SidecarClient::UserResponse SidecarClient::UserResponse::create(
   end = body.find( '"', start + 9 );
   const QString& secret = body.substr( start + 9, end - ( start + 9 ) );
 
-#if defined( ARDUINO )
   return UserResponse( response, keyId, secret );
-#else
-  return std::move( UserResponse( response, keyId, secret ) );
-#endif
 }
 
 
@@ -160,11 +156,7 @@ SidecarClient::UserResponse SidecarClient::createUser(
     if ( responseCode == 200 )
     {
       const QString& body = client->readBody();
-#if defined( ARDUINO )
       return UserResponse::create( responseCode, body );
-#else
-      return std::move( UserResponse::create( responseCode, body ) );
-#endif
     }
     else
     {
@@ -232,11 +224,7 @@ SidecarClient::UserResponse SidecarClient::createOrRetrieveAccessKeys(
     if ( responseCode == 200 )
     {
       const QString& body = client->readBody();
-#if defined ( ARDUINO )
       return UserResponse::create( responseCode, body );
-#else
-      return std::move( UserResponse::create( responseCode, body ) );
-#endif
     }
     else
     {
@@ -303,11 +291,7 @@ SidecarClient::UserResponse SidecarClient::authenticate(
     if ( responseCode == 200 )
     {
       const QString& body = client->readBody();
-#if defined( ARDUINO )
       return UserResponse::create( responseCode, body );
-#else
-      return std::move( UserResponse::create( responseCode, body ) );
-#endif
     }
     else
     {
