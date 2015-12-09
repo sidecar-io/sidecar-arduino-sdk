@@ -90,6 +90,7 @@ namespace qsense
           D = ctx->state[3];
           E = ctx->state[4];
 
+      #undef F
       #define F(x,y,z) (z ^ (x & (y ^ z)))
       #define K 0x5A827999
 
