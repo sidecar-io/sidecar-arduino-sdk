@@ -80,7 +80,7 @@ namespace qsense
         return buffer.size() - current;
       }
 
-      char timedRead()
+      char read()
       {
         populate();
         return ( current < buffer.size() ) ? buffer[current++] : -1;
@@ -154,7 +154,7 @@ namespace qsense
         if ( connected() )
         {
           const QString& line = readLine();
-          if ( line.length() > 14 ) status =  atoi( line.substr( 9, 3 ).c_str() );
+          if ( line.size() > 14 ) status =  atoi( line.substr( 9, 3 ).c_str() );
         }
 
         return status;
@@ -186,14 +186,14 @@ namespace qsense
         if ( request.getBody().size() > 0 )
         {
           C::print( F( "Content-Length: " ) );
-          C::println( request.getBody().length() );
+          C::println( request.getBody().size() );
         }
 
 #if DEBUG
         std::cout << F( "  [req] ") << method << F( " " ) <<
           request.getUri() << F( " HTTP/1.1" ) << std::endl;
         std::cout << F( "  [req] Host: " ) << server << std::endl;
-        std::cout << F( "  [req] Content-Length: " ) << request.getBody().length() << std::endl;
+        std::cout << F( "  [req] Content-Length: " ) << request.getBody().size() << std::endl;
 #endif
 
         writeHeaders( request );
@@ -213,7 +213,7 @@ namespace qsense
         if ( connected() )
         {
           const QString& line = readLine();
-          if ( line.length() > 14 ) status =  atoi( line.substr( 9, 3 ).c_str() );
+          if ( line.size() > 14 ) status =  atoi( line.substr( 9, 3 ).c_str() );
 #if DEBUG
           std::cout << F( "  [resp] " ) << line << std::endl;
 #endif
@@ -229,30 +229,20 @@ namespace qsense
 
         while ( connected() )
         {
-          int bytes = C::available();
 #if defined( ARDUINO )
           int c = ' ';
 #else
           char c = ' ';
 #endif
 
-          if ( bytes )
+          if ( C::available() )
           {
-            line.reserve( bytes );
-#if USE_Ethernet_Shield_V2
             c = C::read();
-#else
-            c = C::timedRead();
-#endif
 
             while ( c >= 0 && c != '\n' )
             {
               if ( c != '\r' ) line += static_cast<char>( c );
-#if USE_Ethernet_Shield_V2
               c = C::read();
-#else
-              c = C::timedRead();
-#endif
             }
           }
 
@@ -279,7 +269,7 @@ namespace qsense
             m.insert( std::pair<QString,QString>( key, value ) );
           }
 
-          if ( line.length() <= 1 ) break;
+          if ( line.size() <= 1 ) break;
         }
 
         return m;
@@ -294,7 +284,7 @@ namespace qsense
         while ( connected() )
         {
           const QString& line = readLine();
-          if ( line.length() == 0 ) break;
+          if ( line.size() == 0 ) break;
           content.append( line );
         }
 
