@@ -1,8 +1,8 @@
-<map id="/Users/rakesh/svn/customer/qsense/desktop/src/api/net/SidecarClient.h" name="/Users/rakesh/svn/customer/qsense/desktop/src/api/net/SidecarClient.h">
-<area shape="rect" id="node2" href="$_q_sense_8h.xhtml" title="QSense.h" alt="" coords="111,333,193,360"/>
-<area shape="rect" id="node5" href="$_event_8h.xhtml" title="Event.h" alt="" coords="187,109,253,136"/>
-<area shape="rect" id="node6" href="$_location_8h.xhtml" title="Location.h" alt="" coords="70,184,154,211"/>
-<area shape="rect" id="node8" href="$_reading_8h.xhtml" title="Reading.h" alt="" coords="179,184,261,211"/>
-<area shape="rect" id="node10" href="$_u_u_i_d_8h.xhtml" title="UUID.h" alt="" coords="401,259,466,285"/>
-<area shape="rect" id="node9" href="$_date_time_8h.xhtml" title="net/DateTime.h" alt="" coords="263,259,377,285"/>
+<map id="SidecarClient.h" name="SidecarClient.h">
+<area shape="rect" id="node2" href="$_q_sense_8h.xhtml" title="QSense.h" alt="" coords="76,304,157,331"/>
+<area shape="rect" id="node5" href="$_event_8h.xhtml" title="Event.h" alt="" coords="151,80,218,107"/>
+<area shape="rect" id="node6" href="$_location_8h.xhtml" title="Location.h" alt="" coords="34,155,118,181"/>
+<area shape="rect" id="node8" href="$_reading_8h.xhtml" title="Reading.h" alt="" coords="143,155,226,181"/>
+<area shape="rect" id="node10" href="$_u_u_i_d_8h.xhtml" title="UUID.h" alt="" coords="365,229,430,256"/>
+<area shape="rect" id="node9" href="$_date_time_8h.xhtml" title="net/DateTime.h" alt="" coords="228,229,341,256"/>
 </map>
