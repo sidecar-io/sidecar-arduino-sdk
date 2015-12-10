@@ -13,6 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 #include <SPI.h>
+
+// Please Note: To use default Arduino Ethernet driver, you need to edit the
+// QSense.h file in the QSense library and set USE_Ethernet_Shield_V2 to 0
+// #define USE_Ethernet_Shield_V2 0
 #include <Ethernet.h>
 #include <WiFi.h>
 
@@ -20,6 +24,7 @@ limitations under the License.
 #include <SimpleSidecarClient.h>
 #include <serstream>
 
+// Please do not remove.  Needed by QSense library
 namespace std
 {
   ohserialstream cout(Serial);

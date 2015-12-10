@@ -76,8 +76,7 @@ void initSidecar()
 
   Serial.print( F( "Initialising Sidecar API with API key: " ) );
   Serial.print( apiKey );
-  Serial.print( F( " and secret: " ) );
-  Serial.println( apiSecret );
+  Serial.println( F( " and secret specified." ) );
 
   // Initialise SidecarClient API
   SimpleSidecarClient::initAPIKey( apiKey, apiSecret );
@@ -139,9 +138,7 @@ void createUser()
   password = Serial.readStringUntil( '\n' );
 
   Serial.print( F( "Accessing or creating account " ) );
-  Serial.print( username );
-  Serial.print( F( "/" ) );
-  Serial.println( password );
+  Serial.println( username );
 
   const SimpleSidecarClient::UserResponse& response = client.createUser( username, password );
 
@@ -176,9 +173,7 @@ void createOrRetrieveAccessKeys()
   password = Serial.readStringUntil( '\n' );
 
   Serial.print( F( "Accessing or creating account " ) );
-  Serial.print( username );
-  Serial.print( F( "/" ) );
-  Serial.println( password );
+  Serial.println( username );
 
   const SimpleSidecarClient::UserResponse& response = client.createOrRetrieveAccessKeys( username, password );
 
